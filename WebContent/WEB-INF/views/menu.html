@@ -1,0 +1,38 @@
+<script type = "text/ng-template" id="food.html">
+<div>
+	<button ng-click="sortType='price'; sortReverse = !sortReverse">Sort</button>
+</div>
+
+<table class="column">
+	<td class="col-lg-8 solid">
+		<div ng-repeat="food in menuItems.menu">
+			<div class="row">
+				<div class="col-lg-1 solid">{{food.code}}</div>
+				<div class="col-lg-2 solid">{{food.name}}</div>
+				<div class="col-lg-2 solid">{{food.type}}</div>
+				<div class="col-lg-2 solid">{{food.available}}</div>
+				<div class="col-lg-2 solid">{{food.currency}}</div>
+				<div class="col-lg-2 solid">{{food.price}}</div>
+				<div class="col-lg-1 solid" ng-click="changeSelectedFood(food)">
+					Edit</div>
+			</div>
+		</div>
+	<td>
+	<td class="col-lg-4 solid">
+		<div ng-if="selectedFoodItem!=null"
+			class="{solid : selectedFoodItem!=null}">
+			<form action="">
+				Food Code: {{selectedFoodItem.code}}<br> Food Name: <input
+					type="text" value="{{selectedFoodItem.name}}"><br>
+				Food Description: <input type="text"
+					value="{{selectedFoodItem.description}}"><br> Food
+				Currency: <input type="text" value="{{selectedFoodItem.currency}}"><br>
+				Food Price: <input type="text" value="{{selectedFoodItem.price}}"><br>
+				<button>Edit</button>
+			</form>
+
+		</div>
+	</td>
+
+</table>
+</script>
