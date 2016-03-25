@@ -8,15 +8,12 @@ page.config(['$routeProvider',function($routeProvider){
     })
     .when('/orders', {
       templateUrl: 'orders.html',
-      controller:'HSController'
+      controller:'OrdersController'
     })
     .when('/newDish', {
         templateUrl: 'add_dish.html',
         controller:'HSController'
-      }).
-    otherwise({
-       redirectTo: '/food'
-    });
+      })
 }]);
 
 page.controller("HSController", function($scope, $http) {
@@ -104,8 +101,10 @@ page.controller("HSController", function($scope, $http) {
         });
       }
     
+    
 });
 
+/** filter for making long string elliptical**/
 angular.module('ng').filter('cut', function () {
     return function (value, wordwise, max, tail) {
         if (!value) return '';
@@ -126,3 +125,38 @@ angular.module('ng').filter('cut', function () {
     };
 });
 
+page.controller("OrdersController", function($scope, $http) {
+
+	
+	if($scope.orders==null || $scope.orders==undefined){
+		var ordersResponse = $http.get("/hotspice-core/view/orders", {}, {});
+		ordersResponse.success(function(dataFromServer, status, headers, config) {
+			console.log(dataFromServer);
+			$scope.orders = dataFromServer;
+		});
+		ordersResponse.error(function(data, status, headers, config) {
+	       alert("fetching orders failed!");
+	    });
+	}
+    
+    /** order related :: **/
+    $scope.orders = null;
+    $scope.selectedOrder = null;
+    $scope.showOrder = function(order){
+    	$scope.selectedOrder = order;
+    }
+    
+    $scope.sortOrder = function(sortField){
+		if($scope.sortType==sortField){
+			$scope.sortReverse=!$scope.sortReverse;
+		}else{
+			$scope.sortType =sortField;
+			$scope.sortReverse=true;
+		}
+	}
+	
+	$scope.sortType="type";
+	$scope.sortReverse=false;
+
+    
+});

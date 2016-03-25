@@ -10,7 +10,7 @@ public class Order implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1982345678L;
-	private Enum<OrderStatus> status;
+	private OrderStatus status;
 	private Date timeOfOrder;
 	private Date timeOfDelivery;
 	private double totalAmount;
@@ -19,10 +19,13 @@ public class Order implements Serializable{
 	private String address;
 	private String orderId;
 	private Customer customer;
-	public Enum<OrderStatus> getStatus() {
+	
+	
+	
+	public OrderStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Enum<OrderStatus> status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 	public Date getTimeOfOrder() {

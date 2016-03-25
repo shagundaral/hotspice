@@ -40,16 +40,6 @@ public class HSController {
 		gson = new Gson();
 	}
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
-	@ResponseBody
-	MenuResponse getMenu(){
-		
-		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
-		menuresponse.setMenu(foodItems);
-		return menuresponse;
-		
-	}
 	
 	
 	@RequestMapping(value = "view/menu", method = RequestMethod.GET)
@@ -57,7 +47,7 @@ public class HSController {
 	ModelAndView getMenuView(){
 		
 		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
+		List<FoodItem> foodItems = service.retrieveFoodItems();
 		menuresponse.setMenu(foodItems);
 		
 		Set<String> categories = new HashSet<String>();
@@ -80,32 +70,6 @@ public class HSController {
 	}
 	
 	
-	/**
-	 * filter menu item by category
-	 * for the app
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/menu/{category}", method = RequestMethod.GET)
-	@ResponseBody
-	MenuResponse getMenu(@PathVariable String category){
-		
-		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
-		
-		Iterator<FoodItem> foodItemsIterator = foodItems.iterator();
-
-		if(foodItemsIterator.hasNext()){
-			FoodItem foodItem = foodItemsIterator.next();
-			if(!category.equalsIgnoreCase("All") && !foodItem.getCategory().contains(category)){
-				foodItemsIterator.remove();
-			}
-		}
-		
-		menuresponse.setMenu(foodItems);
-		return menuresponse;
-		
-	}
 
 	/**
 	 * 
@@ -117,7 +81,7 @@ public class HSController {
 	ModelAndView getMenuView(@PathVariable String category) {
 
 		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
+		List<FoodItem> foodItems = service.retrieveFoodItems();
 		
 
 		Set<String> categories = new HashSet<String>();
@@ -166,8 +130,8 @@ public class HSController {
 	 */
 	@RequestMapping(value = "/view/orders", method = RequestMethod.GET)
 	@ResponseBody
-	ModelAndView getAllOrders(){
-		List<Order> orders = service.getAllOrders(null);
+	String getAllOrders(){
+		List<Order> orders = service.retrieveOrders(null);
 		OrdersResponse orderResp = new OrdersResponse();
 		orderResp.setOrders(orders);
 		
@@ -175,7 +139,7 @@ public class HSController {
 		model.setViewName("hs_home");
 		model.addObject("orders", gson.toJson(orderResp));
 		
-		return model;
+		return gson.toJson(orderResp);
 	}
 	
 	
@@ -187,48 +151,17 @@ public class HSController {
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	@ResponseBody
 	OrdersResponse getOrders(){
-		List<Order> orders = service.getAllOrders(null);
+		List<Order> orders = service.retrieveOrders(null);
 		OrdersResponse orderResp = new OrdersResponse();
 		orderResp.setOrders(orders);
 		return orderResp;
 	}
 	
-	
-	
-	
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	@RequestMapping(value = "/storeOrder", method = RequestMethod.POST)
 	@ResponseBody
-	String placeOrder(@RequestBody Order order){
-		return service.placeOrder(order);
-		
-	}
-	
-	/**
-	 * generate new order for customer
-	 * request type - post
-	 * 
-	 * @param item
-	 * @param customer
-	 * @return
-	 */
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	@ResponseBody
-	String order(FoodItem item, Customer customer){
-		return service.order(item, customer);
-	}
-	
-	/**
-	 * append food item in existing order
-	 * request type - patch, delete
-	 * 
-	 * @param item
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/order", method = RequestMethod.PUT)
-	@ResponseBody
-	String order(FoodItem item, String orderId){
-		return service.order(item, orderId);
+	String storeOrder(@RequestBody Order order){
+		service.addOrder(order);
+		return null;
 	}
 	
 	@RequestMapping(value = "/order", method = RequestMethod.DELETE)
@@ -237,18 +170,6 @@ public class HSController {
 		return deleteOrder(item, orderId);
 	}
 
-	/**
-	 * to make final booking
-	 * 
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/book", method = RequestMethod.POST)
-	@ResponseBody
-	Order book(String orderId){
-		return service.book(orderId);
-	}
-	
 	/**
 	 * change order status to cancelled
 	 * 
@@ -259,21 +180,7 @@ public class HSController {
 	@ResponseBody
 	Order cancel(String orderId){
 		return service.cancel(orderId);
-	}
-	
-	
-	/**
-	 * add new category
-	 * 
-	 * @param Category
-	 * @return
-	 */
-	@RequestMapping(value = "/category", method = RequestMethod.POST)
-	@ResponseBody
-	String addCategories(String Category){
-		return service.addCategories(Category);
-	}
-	
+	}	
 	
 	/**
 	 * 

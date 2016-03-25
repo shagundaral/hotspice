@@ -1,10 +1,14 @@
 package serviceimpl;
 
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
+import pojo.OrderStatus;
+import pojo.PlaceOrderRequest;
 import service.HSService;
 
 public class HSImpl implements HSService {
@@ -17,47 +21,17 @@ public class HSImpl implements HSService {
 
 
 	@Override
-	public List<FoodItem> search(Customer customer) {
+	public List<FoodItem> retrieveFoodItems() {
 		
 		List<FoodItem> foodItems = null;
 		if(null!=helper){
-			foodItems = helper.getFoodItems(customer);
+			foodItems = helper.getFoodItems();
 		}
 		return foodItems;
 	}
 
 	@Override
-	public String order(FoodItem item, Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String order(FoodItem item, String orderId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Order book(String orderId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Order cancel(String orderId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String deleteOrder(FoodItem item, String orderId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String addCategories(String Category) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -72,7 +46,7 @@ public class HSImpl implements HSService {
 	}
 
 	@Override
-	public List<Order> getAllOrders(Customer customer) {
+	public List<Order> retrieveOrders(Customer customer) {
 		List<Order> orders = null;
 		if(null!=helper){
 			orders = helper.getOrders(customer);
@@ -80,13 +54,96 @@ public class HSImpl implements HSService {
 		return orders;
 	}
 
-	@Override
-	public String placeOrder(Order order) {
+	/*@Override
+	public String createOrder(Order order) {
 		return helper.store(order);
-	}
+	}*/
 
 	@Override
 	public String generateFoodCode() {
+		return String.valueOf(helper.generateFoodCode());
+	}
+
+	//Will be used when implementing Cart functionality
+	@Override
+	public void addOrder(Order order) {
+		helper.store(order);
+		
+	}
+
+	@Override
+	public Order createOrder(PlaceOrderRequest placeOrderRequest) {
+		Order order = new Order();
+		order.setOrderId("HS"+helper.generateOrderId());
+		order.setAddress(placeOrderRequest.getCustomer().getAddress());
+		order.setCity(placeOrderRequest.getCustomer().getCity());
+		order.setCustomer(placeOrderRequest.getCustomer());
+		order.setStatus(OrderStatus.CONFIRMED);
+		
+		List<FoodItem> foodItems = helper.getFoodItems();
+		Iterator<FoodItem> dishIterator = foodItems.iterator();
+		while(dishIterator.hasNext()){
+			FoodItem dish = dishIterator.next();
+			if(!placeOrderRequest.getFoodItemIds().contains(dish.getCode())){
+				dishIterator.remove();
+			}
+		}
+		
+		order.setFoodItems(foodItems);
+		//order.setTimeOfDelivery(new Date());
+		order.setTimeOfOrder(new Date());
+		
+		double totalAmt = 0.0;
+		for(FoodItem food : foodItems){
+			totalAmt += food.getPrice();
+		}
+		
+		order.setTotalAmount(totalAmt);
+		
+		helper.store(order);
+		
+		return order;
+		
+	}
+
+	@Override
+	public Order updateOrder(Order order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String createCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Customer updateCustoemr(Customer customer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteCustomer(String customerId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Customer> retrieveCustomer(int customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateFoodItem(FoodItem dish) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Order retrieveOrder(String orderId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

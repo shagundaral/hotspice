@@ -24,8 +24,7 @@ public class HSHelper {
 		mongo = MongoHelper.getInstance();  
 	}
 	
-	public List<FoodItem> getFoodItems(Customer customer){
-		//customer will be used for search
+	public List<FoodItem> getFoodItems(){
 		List<FoodItem> storedFoodItems = mongo.getAllFoodItems(new Query(), FoodItem.class);
 		/*if(null!=storedFoodItems && !storedFoodItems.isEmpty() && null!=filters && null!=filters.getFoodFilters() && !filters.getFoodFilters().isEmpty()){
 			for(FoodFilter foodFilter : filters.getFoodFilters()){
@@ -46,11 +45,11 @@ public class HSHelper {
 	}
 	
 	public Integer generateFoodCode(){
-		int code = 1000;
-		
-		code = mongo.getFoodCode();
-		
-		return code;
+		return mongo.getFoodCode();
+	}
+	
+	public Integer generateOrderId(){
+		return mongo.getOrderCode();
 	}
 	
 

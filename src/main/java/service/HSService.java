@@ -5,33 +5,51 @@ import java.util.List;
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
+import pojo.PlaceOrderRequest;
 
+/**
+ * 
+ * defining all CRUD operations on all out data objects
+ * 
+ * @author MMT3760
+ *
+ */
 public interface HSService {
 	
-	/** for customer **/
-	String order(FoodItem item, String orderId);
+	//String order(FoodItem item, String orderId);
 	
-	Order book(String orderId);
+	//Order book(String orderId);
 	
-	String placeOrder(Order order);
+	//String createOrder(Order order);
 	
-	/** for operations team **/
+	//ORDER
+	Order createOrder(PlaceOrderRequest placeOrderRequest);
+	List<Order> retrieveOrders(Customer customer);
+	Order retrieveOrder(String orderId);
+	Order updateOrder(Order order);
+	Order cancel(String orderId);
 	
-	String addCategories(String Category);
-	
-	List<Order> getAllOrders(Customer customer);
-	
+	//FOOD
+	List<FoodItem> retrieveFoodItems();
 	String addFoodItem(FoodItem foodItem);
+	void updateFoodItem(FoodItem dish);
+	
+	//CUSTOMER
+	String createCustomer(Customer customer);
+	List<Customer> retrieveCustomer(int customerId);
+	Customer updateCustoemr(Customer customer);
+	void deleteCustomer(String customerId);
+	
 	
 	String generateFoodCode();
 	
-	/** for both **/
-	List<FoodItem> search(Customer customer);
 	
-	String order(FoodItem item, Customer customer);
-	
-	String deleteOrder(FoodItem item, String orderId);
+	//will be used for cart functionality
+	void addOrder(Order order);
 
-	Order cancel(String orderId);
+	
+
+
+	
 
 }

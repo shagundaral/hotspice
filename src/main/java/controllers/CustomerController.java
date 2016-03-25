@@ -1,27 +1,30 @@
 package controllers;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
+import pojo.OrderStatus;
 import pojo.OrdersResponse;
+import pojo.PlaceOrderRequest;
 import service.HSService;
 import serviceimpl.HSImpl;
 
 import com.google.gson.Gson;
 
+@Controller
 public class CustomerController {
 	
 	static HSService service;
@@ -36,13 +39,51 @@ public class CustomerController {
 	@ResponseBody
 	MenuResponse getMenu(){
 		
+		
+		
 		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
+		List<FoodItem> foodItems = service.retrieveFoodItems();
+		
+		/*OrdersResponse orderResp = new OrdersResponse();
+		
+		Order order = new Order();
+		order.setOrderId("order 1");
+		order.setAddress("312/32 gurgaon");
+		order.setCity("Gurgaon");
+		Customer customer = new Customer();
+		customer.setEmailId("shagun.daral@gmail.com");
+		customer.setPhoneNumber("9818578118");
+		order.setCustomer(customer);
+		order.setStatus(OrderStatus.CONFIRMED);
+		order.setFoodItems(foodItems);
+		order.setTimeOfDelivery(new Date());
+		order.setTimeOfOrder(new Date());
+		order.setTotalAmount(500);
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(order);
+		orderResp.setOrders(orders);*/
+		
+		/*Customer customer = new Customer();
+		customer.setEmailId("shagun.daral@gmail.com");
+		customer.setPhoneNumber("9818578118");
+		customer.setAddress("312/32 gurgaon");
+		customer.setCity("Gurgaon");
+		customer.setName("Shagun Daral");
+		PlaceOrderRequest req = new PlaceOrderRequest();
+		req.setCustomer(customer);
+		List<String> foodIds = new ArrayList<String>();
+		for(FoodItem food : foodItems){
+			foodIds.add(food.getCode());
+		}
+		req.setFoodItemIds(foodIds);
+		
+		System.out.println(gson.toJson(req));*/
+		
 		menuresponse.setMenu(foodItems);
 		return menuresponse;
 		
 	}
-	
+		
 	
 	/**
 	 * filter menu item by category
@@ -55,7 +96,7 @@ public class CustomerController {
 	MenuResponse getMenu(@PathVariable String category){
 		
 		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
+		List<FoodItem> foodItems = service.retrieveFoodItems();
 		
 		Iterator<FoodItem> foodItemsIterator = foodItems.iterator();
 
@@ -71,94 +112,12 @@ public class CustomerController {
 		
 	}
 
-
 	
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	@RequestMapping(value = "/customer/{customer}", method = RequestMethod.POST)
 	@ResponseBody
-	String placeOrder(@RequestBody Order order){
-		return service.placeOrder(order);
-		
-	}
-	
-	/**
-	 * generate new order for customer
-	 * request type - post
-	 * 
-	 * @param item
-	 * @param customer
-	 * @return
-	 */
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	@ResponseBody
-	String order(FoodItem item, Customer customer){
-		return service.order(item, customer);
-	}
-	
-	/**
-	 * append food item in existing order
-	 * request type - patch, delete
-	 * 
-	 * @param item
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/order", method = RequestMethod.PUT)
-	@ResponseBody
-	String order(FoodItem item, String orderId){
-		return service.order(item, orderId);
-	}
-	
-	@RequestMapping(value = "/order", method = RequestMethod.DELETE)
-	@ResponseBody
-	String deleteOrder(FoodItem item, String orderId){
-		return deleteOrder(item, orderId);
-	}
-
-	/**
-	 * to make final booking
-	 * 
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/book", method = RequestMethod.POST)
-	@ResponseBody
-	Order book(String orderId){
-		return service.book(orderId);
-	}
-	
-	/**
-	 * change order status to cancelled
-	 * 
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
-	@ResponseBody
-	Order cancel(String orderId){
-		return service.cancel(orderId);
-	}
-	
-	/**
-	 * add new category
-	 * 
-	 * @param Category
-	 * @return
-	 */
-	@RequestMapping(value = "/category", method = RequestMethod.POST)
-	@ResponseBody
-	String addCategories(String Category){
-		return service.addCategories(Category);
+	Order placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest, @PathVariable int customer){
+		return service.createOrder(placeOrderRequest);
 	}
 	
 	
-	/**
-	 * 
-	 * @param foodItem
-	 * @return
-	 */
-	@RequestMapping(value = "/food", method = RequestMethod.GET)
-	@ResponseBody
-	String addFoodItem(FoodItem foodItem){
-		return service.addFoodItem(foodItem);
-	}
 }

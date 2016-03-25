@@ -8,6 +8,7 @@
 
 <script>
 	var menuItems = ${menu};
+	
 </script>
 <body ng-app="hotspice">
 <div id="header">Hot Spice</div>
@@ -17,17 +18,15 @@
 			<a href="#orders">Orders</a>
 		</div>
    </div>
-
-	<div ng-controller="HSController" id="section">
-	
+<div ng-controller="HSController" id="section">
 	<div class="container">
 		<div ng-view></div>
 	</div>
 	</div>
-	
 
 </body>
 <script type = "text/ng-template" id="food.html">
+
 
 <div class="row">
 
@@ -89,29 +88,72 @@
 </table>
 
 </div>
-
 </script>
 
 <script type = "text/ng-template" id = "orders.html">
 <div>
-orders page goes here
+		<table>
+	<td class="col-lg-8 solid left">
+	
+			<div class="row">
+				<div class="col-lg-2 solid" ng-click="sortOrder('orderId'); ">order id</div>
+				<div class="col-lg-2 solid" ng-click="sortOrder('city');">city</div>
+				<div class="col-lg-2 solid" ng-click="sortOrder('timeOfOrder');">timeOfOrder</div>
+				<div class="col-lg-2 solid" ng-click="sortOrder('timeOfDelivery');">timeOfDelivery</div>
+				<div class="col-lg-2 solid" ng-click="sortOrder('totalAmount');">totalAmount</div>
+			</div>
+	
+		<div ng-repeat="order in orders.orders | orderBy:sortType:sortReverse ">
+			<div class="row" class="tr">
+				<div class="col-lg-2 solid">{{order.orderId}}</div>
+				<div class="col-lg-2 solid">{{order.city}}</div>
+				<div class="col-lg-2 solid">{{order.timeOfOrder}}</div>
+				<div class="col-lg-2 solid">{{order.timeOfDelivery}}</div>
+				<div class="col-lg-2 solid">{{order.totalAmount}}</div>
+				<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>
+			</div>
+		</div>
+	<td>
+	<td class="col-lg-4 solid right">
+		<div ng-if="selectedOrder!=null" class="{solid : selectedOrder!=null}">
+			<form>
+				Order id: {{selectedOrder.orderId}}<br>
+				Status : {{selectedOrder.status.name}}<br>
+				City: {{selectedOrder.city}}<br>
+				Time of Order: {{selectedOrder.timeOfOrder}}<br> 
+				Time of delivery: {{selectedOrder.timeOfDelivery}}<br>
+				Order Amount: {{selectedOrder.totalAmount}}<br>
+				Delivery Address: {{selectedOrder.address}}<br>
+				Customer contact : {{selectedOrder.customer.phoneNumber}}<br>
+				Customer email : {{selectedOrder.customer.emailId}}<br>
+				Order:<p ng-repeat="dish in selectedOrder.foodItems" style="left">{{dish.name}},</p>
+				drop down for change status
+				
+			</form>
+
+		</div>
+	</td>
+
+</table>
 </div>
 </script>
 
 <script type = "text/ng-template" id = "add_dish.html">
-<div class="textBarsContainer">
-<form>
-	Food Name: <input type="text" class="textBars" name="dishName" ng-model="newDish.name"><br>
-	Food Description: <input class="textBars" type="text" ng-model="newDish.description"><br> 
-	Food Currency: <input type="text" class="textBars" ng-model="newDish.currency"><br>
-	Food Price: <input type="text" class="textBars" ng-model="newDish.price"><br>
-	Food Category: <input type="text" class="textBars" ng-model="newDish.category"><br>
-	Location: <input type="text" class="textBars" ng-model="newDish.locations"><br>
-	Image path: <input type="text" class="textBars" ng-model="newDish.imagePath"><br>
-	Available : <input type="radio" class="radioBar" ng-model="newDish.available" value="Yes"> Yes  
-				<input type="radio" class="radioBar" ng-model="newDish.available" value="No"> No <br>
-	<div class="formSubmit" ng-click="newDish.add()">Save</div>
-</form>
+<div ng-controller="HSController" id="section">
+	<div class="textBarsContainer">
+	<form>
+		Food Name: <input type="text" class="textBars" name="dishName" ng-model="newDish.name"><br>
+		Food Description: <input class="textBars" type="text" ng-model="newDish.description"><br> 
+		Food Currency: <input type="text" class="textBars" ng-model="newDish.currency"><br>
+		Food Price: <input type="text" class="textBars" ng-model="newDish.price"><br>
+		Food Category: <input type="text" class="textBars" ng-model="newDish.category"><br>
+		Location: <input type="text" class="textBars" ng-model="newDish.locations"><br>
+		Image path: <input type="text" class="textBars" ng-model="newDish.imagePath"><br>
+		Available : <input type="radio" class="radioBar" ng-model="newDish.available" value="Yes"> Yes  
+					<input type="radio" class="radioBar" ng-model="newDish.available" value="No"> No <br>
+		<div class="formSubmit" ng-click="newDish.add()">Save</div>
+	</form>
+	</div>
 </div>
 </script>
 

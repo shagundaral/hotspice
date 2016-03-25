@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.OrderComparator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 
 import pojo.FoodCode;
 import pojo.FoodItem;
 import pojo.Order;
+import pojo.OrderIdNode;
 
 public class MongoHelper {
 	
@@ -47,22 +49,35 @@ public class MongoHelper {
 	}
 	
 	public List<Order> getAllOrders(Query query, Class<Order> class1) {
-		//return null;
-		
 		List<Order> orders = mongoOperation.find(query, class1);
 		return orders;
 		
 	}
 
 	public int getFoodCode() {
-		FoodCode code = mongoOperation.findOne(new Query(), FoodCode.class);
-		if(null!=code){
-			return code.getCode()+1;
-		}else{
-			//store new code
-			save(new FoodCode(1001));
+		synchronized (this) {
+			FoodCode code = mongoOperation.findOne(new Query(), FoodCode.class);
+			if(null!=code){
+				return code.getCode()+1;
+			}else{
+				//store new code
+				save(new FoodCode(1001));
+			}
 		}
 		return 1001;
+	}
+
+	public Integer getOrderCode() {
+		synchronized (this) {
+			OrderIdNode code = mongoOperation.findOne(new Query(), OrderIdNode.class);
+			if(null!=code){
+				return code.getCode()+1;
+			}else{
+				//store new code
+				save(new OrderIdNode(01));
+			}
+		}
+		return 01;
 	}
 	
 
