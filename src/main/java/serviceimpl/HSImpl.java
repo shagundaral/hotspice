@@ -3,10 +3,8 @@ package serviceimpl;
 import java.util.List;
 
 import pojo.Customer;
-import pojo.FoodFilters;
 import pojo.FoodItem;
 import pojo.Order;
-import pojo.OrderFilters;
 import service.HSService;
 
 public class HSImpl implements HSService {
@@ -19,11 +17,11 @@ public class HSImpl implements HSService {
 
 
 	@Override
-	public List<FoodItem> search(FoodFilters filters, Customer customer) {
+	public List<FoodItem> search(Customer customer) {
 		
 		List<FoodItem> foodItems = null;
 		if(null!=helper){
-			foodItems = helper.search(filters, customer);
+			foodItems = helper.getFoodItems(customer);
 		}
 		return foodItems;
 	}
@@ -59,18 +57,6 @@ public class HSImpl implements HSService {
 	}
 
 	@Override
-	public List<Order> getOrders(String sortOrder, OrderFilters filters) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getCategories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String addCategories(String Category) {
 		// TODO Auto-generated method stub
 		return null;
@@ -83,6 +69,26 @@ public class HSImpl implements HSService {
 			status = helper.store(foodItem);
 		}
 		return status;
+	}
+
+	@Override
+	public List<Order> getAllOrders(Customer customer) {
+		List<Order> orders = null;
+		if(null!=helper){
+			orders = helper.getOrders(customer);
+		}
+		return orders;
+	}
+
+	@Override
+	public String placeOrder(Order order) {
+		return helper.store(order);
+	}
+
+	@Override
+	public String generateFoodCode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

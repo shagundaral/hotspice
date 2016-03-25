@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +22,7 @@ import serviceimpl.HSImpl;
 
 import com.google.gson.Gson;
 
-
-/**
- * 
- * @author Shagun
- *
- */
-@Controller
-public class HSController {
+public class CustomerController {
 	
 	static HSService service;
 	static Gson gson = null;
@@ -48,34 +40,6 @@ public class HSController {
 		List<FoodItem> foodItems = service.search(null);
 		menuresponse.setMenu(foodItems);
 		return menuresponse;
-		
-	}
-	
-	
-	@RequestMapping(value = "view/menu", method = RequestMethod.GET)
-	@ResponseBody
-	ModelAndView getMenuView(){
-		
-		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
-		menuresponse.setMenu(foodItems);
-		
-		Set<String> categories = new HashSet<String>();
-		if(null!=foodItems && !foodItems.isEmpty()){
-			for(FoodItem dish : foodItems){
-				for(String category : dish.getCategory()){
-					categories.add(category);
-				}
-			}
-		}
-		categories.add("All");
-		menuresponse.setCategories(categories);
-		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hs_home");
-		model.addObject("menu", gson.toJson(menuresponse));
-
-		return model;
 		
 	}
 	
@@ -107,94 +71,7 @@ public class HSController {
 		
 	}
 
-	/**
-	 * 
-	 * @param category
-	 * @return
-	 */
-	@RequestMapping(value = "view/menu/{category}", method = RequestMethod.GET)
-	@ResponseBody
-	ModelAndView getMenuView(@PathVariable String category) {
 
-		MenuResponse menuresponse = new MenuResponse();
-		List<FoodItem> foodItems = service.search(null);
-		
-
-		Set<String> categories = new HashSet<String>();
-		Iterator<FoodItem> foodItemsIterator = foodItems.iterator();
-
-		if(foodItemsIterator.hasNext()){
-			FoodItem foodItem = foodItemsIterator.next();
-			for(String categ : foodItem.getCategory()){
-				categories.add(categ);
-			}
-			if(!category.equalsIgnoreCase("All") && !foodItem.getCategory().contains(category)){
-				foodItemsIterator.remove();
-			}
-			
-		}
-		menuresponse.setMenu(foodItems);
-		categories.add("All");
-		menuresponse.setCategories(categories);
-		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hs_home");
-		model.addObject("menu", gson.toJson(menuresponse));
-
-		return model;
-		
-	}
-
-	/**
-	 * add food item
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/menu/item", method = RequestMethod.POST)
-	@ResponseBody
-	String getMenu(@RequestBody FoodItem foodItem){
-		//set auto generated code
-		service.addFoodItem(foodItem);
-		return "SUCCESS";
-		
-	}
-	
-	/**
-	 * view all orders
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/view/orders", method = RequestMethod.GET)
-	@ResponseBody
-	ModelAndView getAllOrders(){
-		List<Order> orders = service.getAllOrders(null);
-		OrdersResponse orderResp = new OrdersResponse();
-		orderResp.setOrders(orders);
-		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hs_home");
-		model.addObject("orders", gson.toJson(orderResp));
-		
-		return model;
-	}
-	
-	
-	/**
-	 * get all orders
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/orders", method = RequestMethod.GET)
-	@ResponseBody
-	OrdersResponse getOrders(){
-		List<Order> orders = service.getAllOrders(null);
-		OrdersResponse orderResp = new OrdersResponse();
-		orderResp.setOrders(orders);
-		return orderResp;
-	}
-	
-	
-	
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	@ResponseBody
@@ -260,7 +137,6 @@ public class HSController {
 	Order cancel(String orderId){
 		return service.cancel(orderId);
 	}
-	
 	
 	/**
 	 * add new category

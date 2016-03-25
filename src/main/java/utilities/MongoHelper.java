@@ -7,7 +7,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 
+import pojo.FoodCode;
 import pojo.FoodItem;
+import pojo.Order;
 
 public class MongoHelper {
 	
@@ -42,6 +44,25 @@ public class MongoHelper {
 		List<FoodItem> foodItems = mongoOperation.find(query, class1);
 		return foodItems;
 		
+	}
+	
+	public List<Order> getAllOrders(Query query, Class<Order> class1) {
+		//return null;
+		
+		List<Order> orders = mongoOperation.find(query, class1);
+		return orders;
+		
+	}
+
+	public int getFoodCode() {
+		FoodCode code = mongoOperation.findOne(new Query(), FoodCode.class);
+		if(null!=code){
+			return code.getCode()+1;
+		}else{
+			//store new code
+			save(new FoodCode(1001));
+		}
+		return 1001;
 	}
 	
 

@@ -1,0 +1,99 @@
+#header {
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding: 20px;
+}
+
+#nav {
+	line-height: 30px;
+	background-color: #eeeeee;
+	width: 100px;
+	height: 500px;
+	float: left;
+	padding: 20px;
+}
+
+#section {
+	width: 350px;
+	float: left;
+	padding: 10px;
+}
+
+.textBarsContainer {
+	margin-top: 20px;
+	position: absolute;
+	width: 400px;
+	left: -200px;
+	margin-left: 50%;
+	font-size: 20px;
+}
+
+.textBarsContainer1 {
+	margin-top: 20px;
+	
+	
+	left: -200px;
+	
+	font-size: 15px;
+}
+
+.textBars1 {
+	width: 200px;
+	height: 20px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.textBars {
+	width: 400px;
+	height: 30px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.radioBar {
+	margin-top: 15px;
+	margin-left: 65px;
+}
+
+.formSubmit {
+	width: 300px;
+	height: 42px;
+	background: #1673ff;
+	text-align: center;
+	padding: 8px;
+	margin-left: 50px;
+	margin-top: 10px;
+	color: white;
+	cursor: pointer;
+}
+
+tr:nth-child(even) {
+	background: #CCC
+}
+
+tr:nth-child(odd) {
+	background: #FFF
+}
+
+.left {
+	float: left
+}
+
+.right {
+	float: right
+}
+
+.solid {
+	border-style: solid;
+	border-width: 1px;
+}
+
+.mix_veg {
+	background-color: green;
+}
+
+.mix_nonveg {
+	background-color: red;
+}
