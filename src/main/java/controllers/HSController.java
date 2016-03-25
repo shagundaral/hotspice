@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
 import pojo.OrdersResponse;
+import pojo.PlaceOrderRequest;
 import service.HSService;
 import serviceimpl.HSImpl;
 
@@ -52,15 +54,19 @@ public class HSController {
 		menuresponse.setMenu(foodItems);
 		
 		Set<String> categories = new HashSet<String>();
+		Set<String> types = new HashSet<String>();
 		if(null!=foodItems && !foodItems.isEmpty()){
 			for(FoodItem dish : foodItems){
 				for(String category : dish.getCategory()){
 					categories.add(category);
 				}
+				types.add(dish.getType());
 			}
 		}
 		categories.add("All");
+		types.add("All");
 		menuresponse.setCategories(categories);
+		menuresponse.setTypes(types);
 		
 		ModelAndView model = new ModelAndView();
 		model.setViewName("hs_home");
@@ -123,6 +129,18 @@ public class HSController {
 	}
 	
 	/**
+	 * edit food item
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/menu/dish", method = RequestMethod.POST)
+	@ResponseBody
+	void editFoodItem(@RequestBody FoodItem foodItem){
+		//set auto generated code
+		service.updateFoodItem(foodItem);
+	}
+	
+	/**
 	 * view all orders
 	 * 
 	 * @return
@@ -163,6 +181,12 @@ public class HSController {
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	@ResponseBody
 	OrdersResponse getOrders(){
+		
+		PlaceOrderRequest placeOrderRequest = new PlaceOrderRequest();
+		List<String> foodItems = new ArrayList<String>();
+		foodItems.add("12");
+		
+		
 		List<Order> orders = service.retrieveOrders(null);
 		OrdersResponse orderResp = new OrdersResponse();
 		orderResp.setOrders(orders);

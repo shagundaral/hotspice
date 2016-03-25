@@ -111,7 +111,7 @@ public class HSImpl implements HSService {
 
 	@Override
 	public String createCustomer(Customer customer) {
-		// TODO Auto-generated method stub
+		int id = helper.generateCustomerId();
 		return null;
 	}
 
@@ -135,7 +135,7 @@ public class HSImpl implements HSService {
 
 	@Override
 	public void updateFoodItem(FoodItem dish) {
-		// TODO Auto-generated method stub
+		helper.updateFoodItem(dish);
 		
 	}
 

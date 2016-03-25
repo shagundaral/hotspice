@@ -33,7 +33,7 @@
 <div>
 
 	<select ng-model="selectedType" id="selectedType" name="selectedType">
-      <option ng-repeat="option in menuItems " value="{{option.type}}">{{option.type}}</option>
+      <option ng-repeat="option in types" value="{{option}}">{{option}}</option>
     </select>
     
     <select ng-model="selectedCategory">
@@ -45,9 +45,16 @@
 	
 </div>
 <br>
-<table class="table table-bordered table-striped">
-	<td class="col-lg-8 solid left">
-	
+
+<form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search Food Item" ng-model="searchFood">
+      </div>      
+    </div>
+  </form>
+
 			<div class="row">
 				<div class="col-lg-1 solid" ng-click="sortMenu('code'); ">code</div>
 				<div class="col-lg-2 solid" ng-click="sortMenu('name');">name</div>
@@ -57,57 +64,88 @@
 				<div class="col-lg-2 solid" ng-click="sortMenu('price');">price</div>
 			</div>
 	
-		<div ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | orderBy:sortType:sortReverse">
+		<div ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | filter:searchFood | orderBy:sortType:sortReverse">
 			<div class="row" class="tr">
-				<div class="col-lg-1 solid">{{food.code}}</div>
-				<div class="col-lg-2 solid">{{food.name | cut:true:10:' ...'}}</div>
+				<div class="col-lg-1 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#FoodItemModal" ng-click="changeSelectedFood(food)">{{food.code}}</div>
+				<div class="col-lg-2 solid">{{food.name | cut:true:20:' ...'}}</div>
 				<div class="col-lg-2 solid">{{food.type}}</div>
 				<div class="col-lg-2 solid">{{food.available}}</div>
 				<div class="col-lg-2 solid">{{food.currency}}</div>
 				<div class="col-lg-2 solid">{{food.price}}</div>
-				<div class="col-lg-1 solid" ng-click="changeSelectedFood(food)">
-					Edit</div>
+				
 			</div>
 		</div>
-	<td>
-	<td class="col-lg-4 solid right">
-		<div ng-if="selectedFoodItem!=null" class="{solid : selectedFoodItem!=null} textBarsContainer1">
+
+
+</div>
+
+
+<div id="FoodItemModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{selectedFoodItem.code}}</h4>
+      </div>
+      <div class="modal-body">
+        <div ng-if="selectedFoodItem!=null" class="{solid : selectedFoodItem!=null} textBarsContainer1">
 			<form action="">
-				Food Code: {{selectedFoodItem.code}}<br> 
-				Food Name: <input type="text" class="textBars1" value="{{selectedFoodItem.name}}"><br>
-				Food Description: <input type="text" class="textBars1" value="{{selectedFoodItem.description}}"><br> 
-				Food Currency: <input type="text" class="textBars1" value="{{selectedFoodItem.currency}}"><br>
-				Food Price: <input type="text" class="textBars1" value="{{selectedFoodItem.price}}"><br>
-				Food Category: <input type="text" class="textBars1" value="{{selectedFoodItem.category}}"><br>
-				<button>Edit</button>
+				Food Name: <input type="text" class="textBars1" value="{{selectedFoodItem.name}}" ng-model="selectedFoodItem.name"><br>
+				Food Description: <input type="text" class="textBars1" value="{{selectedFoodItem.description}}" ng-model="selectedFoodItem.description"><br> 
+				Food Currency: <input type="text" class="textBars1" value="{{selectedFoodItem.currency}}" ng-model="selectedFoodItem.currency"><br>
+				Food Price: <input type="text" class="textBars1" value="{{selectedFoodItem.price}}" ng-model="selectedFoodItem.price"><br>
+				Food Category: <input type="text" class="textBars1" value="{{selectedFoodItem.category}}" ng-model="selectedFoodItem.category"><br>
+				<button ng-click="editFood()">Edit</button>
 			</form>
 
 		</div>
-	</td>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
 
-</table>
-
+  </div>
 </div>
+
+
+
 </script>
 
 <script type = "text/ng-template" id = "orders.html">
 <div>
-		<table>
-	<td class="col-lg-8 solid left">
-	
+
+	<p ng-show="orders.orderByStatusCount.CONFIRMED!=null" style="display: inline;" ng-click="selectedStatus='CONFIRMED'">Confirmed: {{orders.orderByStatusCount.CONFIRMED}} </p>
+	<p ng-show="orders.orderByStatusCount.DISPATCHED!=null" style="display: inline;" ng-click="selectedStatus='DISPATCHED'"> | Dispatched: {{orders.orderByStatusCount.DISPATCHED}} </p>
+	<p ng-show="orders.orderByStatusCount.DELIVERED!=null" style="display: inline;" ng-click="selectedStatus='DELIVERED'"> | Delivered: {{orders.orderByStatusCount.DELIVERED}} </p>
+	<p ng-show="orders.orderByStatusCount.CANCELLED!=null" style="display: inline;" ng-click="selectedStatus='CANCELLED'"> | Cancelled: {{orders.orderByStatusCount.CANCELLED}}</p>
+
+
+<form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+      </div>      
+    </div>
+  </form>
+
+		
 			<div class="row">
 				<div class="col-lg-2 solid" ng-click="sortOrder('orderId'); ">order id</div>
 				<div class="col-lg-2 solid" >customer Id</div>
-				<div class="col-lg-2 solid" ng-click="sortOrder('timeOfOrder');">timeOfOrder</div>
+				<div class="col-lg-4 solid" ng-click="sortOrder('timeOfOrder');">timeOfOrder</div>
 				<div class="col-lg-2 solid" ng-click="sortOrder('status');">status</div>
 				<div class="col-lg-2 solid" ng-click="sortOrder('totalAmount');">totalAmount</div>
 			</div>
 	
-		<div ng-repeat="order in orders.orders | orderBy:sortType:sortReverse ">
+		<div ng-repeat="order in orders.orders | filter:statusfilter | filter:searchText | orderBy:sortType:sortReverse ">
 			<div class="row" class="tr">
-				<div class="col-lg-2 solid">{{order.orderId}}</div>
+				<div class="col-lg-2 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#orderModal" ng-click="showOrder(order)">{{order.orderId}}</div>
 				<div class="col-lg-2 solid" ng-click="showCustomerData(order.customer)">{{order.customer.id}}</div>
-				<div class="col-lg-2 solid">{{order.timeOfOrder}}</div>
+				<div class="col-lg-4 solid">{{order.timeOfOrder}}</div>
 				<div class="col-lg-2 solid">
 				<select ng-model="order.status" ng-change="updateOrderStatus(order)">
 			      <option value="CONFIRMED">CONFIRMED</option>
@@ -117,19 +155,24 @@
 			    </select>
 				</div>
 				<div class="col-lg-2 solid">{{order.totalAmount}}</div>
-				<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>
+				<!--<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>-->
 			</div>
 		</div>
-	<td>
-	<td class="col-lg-4 solid right">
-		<div ng-if="selectedOrder!=null" class="{solid : selectedOrder!=null}">
-		
-		Confirmed: {{orders.orderByStatusCount.CONFIRMED}} <p ng-show="orders.orderByStatusCount.DISPATCHED!=null"> Dispatched: {{orders.orderByStatusCount.DISPATCHED}} </p><p ng-show="orders.orderByStatusCount.DELIVERED!=null"> Delivered: {{orders.orderByStatusCount.DELIVERED}} </p><p ng-show="orders.orderByStatusCount.CANCELLED!=null"> Cancelled: {{orders.orderByStatusCount.CANCELLED}}</p> 
-		
-		
-			<form>
-				Order id: {{selectedOrder.orderId}}<br>
-				Status : {{selectedOrder.status}}<br>
+
+</div>
+
+<div id="orderModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{selectedOrder.orderId}} | {{selectedOrder.status}}</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+				
 				City: {{selectedOrder.city}}<br>
 				Time of Order: {{selectedOrder.timeOfOrder}}<br> 
 				Time of delivery: {{selectedOrder.timeOfDelivery}}<br>
@@ -137,16 +180,20 @@
 				Delivery Address: {{selectedOrder.address}}<br>
 				Customer contact : {{selectedOrder.customer.phoneNumber}}<br>
 				Customer email : {{selectedOrder.customer.emailId}}<br>
-				Order:<p ng-repeat="dish in selectedOrder.foodItems" style="left">{{dish.name}},</p>
+				Order:<p ng-repeat="dish in selectedOrder.foodItems" style="display: inline;">{{dish.name}},</p>
 				drop down for change status
 				
 			</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
 
-		</div>
-	</td>
-
-</table>
+  </div>
 </div>
+
+
 </script>
 
 <script type = "text/ng-template" id = "add_dish.html">

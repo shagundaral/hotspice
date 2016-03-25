@@ -10,6 +10,7 @@ public class MenuResponse implements Serializable{
 	
 	private List<FoodItem> menu;
 	private Set<String> categories;
+	private Set<String> types;
 
 	public List<FoodItem> getMenu() {
 		return menu;
@@ -25,6 +26,14 @@ public class MenuResponse implements Serializable{
 
 	public void setCategories(Set<String> categories) {
 		this.categories = categories;
+	}
+
+	public Set<String> getTypes() {
+		return types;
+	}
+
+	public void setTypes(Set<String> types) {
+		this.types = types;
 	}
 
 }

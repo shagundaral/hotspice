@@ -21,7 +21,10 @@ page.controller("HSController", function($scope, $http) {
 	$scope.menu = window.menuItems;
 	$scope.menuItems = window.menuItems.menu;
 	$scope.categories = window.menuItems.categories;
-	$scope.selectedType = null;
+	$scope.types = window.menuItems.types;
+	
+	
+	$scope.selectedType = "All";
 	$scope.selectedCategory = "All";
 	
 	$scope.filterItem = {
@@ -34,9 +37,10 @@ page.controller("HSController", function($scope, $http) {
 		$scope.selectedFoodItem = food;
 	}
 	
+	$scope.searchFood   = '';
 	
 	$scope.typefilter = function(food){
-		if($scope.selectedType == null){
+		if($scope.selectedType == "All"){
 			return true;
 		}
 		return food.type==$scope.selectedType;
@@ -101,6 +105,16 @@ page.controller("HSController", function($scope, $http) {
         });
       }
     
+    $scope.editFood = function(){
+    	var responsePromise = $http.post("/hotspice-core/menu/dish", $scope.selectedFoodItem, {});
+        responsePromise.success(function(dataFromServer, status, headers, config) {
+           console.log(dataFromServer);
+        });
+         responsePromise.error(function(data, status, headers, config) {
+           alert("Submitting form failed!");
+        });
+    }
+    
     
 });
 
@@ -144,8 +158,15 @@ page.controller("OrdersController", function($scope, $http) {
     $scope.showOrder = function(order){
     	$scope.selectedOrder = order;
     }
-
     
+    $scope.selectedStatus = "All";
+    
+    $scope.statusfilter = function(order){
+    	if($scope.selectedStatus=="All" || order.status==$scope.selectedStatus){
+    		return true;
+    	}
+    	return false;
+    }
     
     $scope.sortOrder = function(sortField){
 		if($scope.sortType==sortField){
@@ -155,6 +176,8 @@ page.controller("OrdersController", function($scope, $http) {
 			$scope.sortReverse=true;
 		}
 	}
+    
+    $scope.searchText="";
 	
 	$scope.sortType="type";
 	$scope.sortReverse=false;

@@ -2,11 +2,11 @@ package pojo;
 
 import java.io.Serializable;
 
-public class OrderIdNode implements Serializable{
+public class CustomerId implements Serializable{
 
-	private static final long serialVersionUID = 2837099371L;
+	private static final long serialVersionUID = 2837754371L;
 	
-	public OrderIdNode(int code) {
+	public CustomerId(int code) {
 		this.code = code;
 	}
 	

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import pojo.CustomerId;
 import pojo.FoodCode;
 import pojo.FoodItem;
 import pojo.Order;
@@ -54,7 +55,7 @@ public class MongoHelper {
 		return orders;
 		
 	}
-
+	
 	public int getFoodCode() {
 		synchronized (this) {
 			FoodCode code = mongoOperation.findOne(new Query(), FoodCode.class);
@@ -83,8 +84,29 @@ public class MongoHelper {
 
 	public void updateOrderStatus(Query query, Update update,
 			Class<Order> class1) {
+		
+		mongoOperation.updateFirst(query, update, class1);
+		//mongoOperation.remove(new Query(), Order.class);
+		
+	}
+
+	public void updateFoodItem(Query query, Update update,
+			Class<FoodItem> class1) {
 		mongoOperation.updateFirst(query, update, class1);
 		
+	}
+
+	public int getCustomerId() {
+		synchronized (this) {
+			CustomerId code = mongoOperation.findOne(new Query(), CustomerId.class);
+			if(null!=code){
+				return code.getCode()+1;
+			}else{
+				//store new code
+				save(new OrderIdNode(1));
+			}
+		}
+		return 1;
 	}
 	
 

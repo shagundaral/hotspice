@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,8 +14,6 @@ import pojo.Customer;
 import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
-import pojo.OrderStatus;
-import pojo.OrdersResponse;
 import pojo.PlaceOrderRequest;
 import service.HSService;
 import serviceimpl.HSImpl;
@@ -117,6 +113,12 @@ public class CustomerController {
 	@ResponseBody
 	Order placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest, @PathVariable int customer){
 		return service.createOrder(placeOrderRequest);
+	}
+	
+	@RequestMapping(value = "/customer", method = RequestMethod.POST)
+	@ResponseBody
+	Order addCustomer(@RequestBody Customer customer){
+		return service.createCustomer(customer);
 	}
 	
 	

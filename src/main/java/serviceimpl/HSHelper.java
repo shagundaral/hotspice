@@ -1,5 +1,6 @@
 package serviceimpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
+import pojo.OrderStatus;
 import utilities.MongoHelper;
 
 /**
@@ -60,9 +62,38 @@ public class HSHelper {
 		
 		Update update = new Update();
 		update.set("status", order.getStatus());
+		if(order.getStatus().equals(OrderStatus.DELIVERED)){
+			update.set("timeOfDelivery", new Date());
+		}
 		
 		mongo.updateOrderStatus(query, update, Order.class);
 				
+	}
+
+	public void updateFoodItem(FoodItem dish) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("code").is(dish.getCode()));
+		query.fields().include("code");
+		
+		Update update = new Update();
+		update.set("name", dish.getName());
+		update.set("category", dish.getCategory());
+		update.set("currency", dish.getCurrency());
+		update.set("description", dish.getDescription());
+		update.set("available", dish.isAvailable());
+		update.set("price", dish.getPrice());
+		update.set("imagePath", dish.getImagePath());
+		update.set("locations", dish.getLocations());
+		
+		
+		
+		mongo.updateFoodItem(query, update, FoodItem.class);
+		
+	}
+
+	public int generateCustomerId() {
+		return mongo.getCustomerId();
 	}
 	
 
