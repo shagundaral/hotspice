@@ -37,12 +37,10 @@ public class HSImpl implements HSService {
 	}
 
 	@Override
-	public String addFoodItem(FoodItem foodItem) {
-		String status = "FAILED";
+	public void addFoodItem(FoodItem foodItem) {
 		if(null!=helper){
-			status = helper.store(foodItem);
+			helper.store(foodItem);
 		}
-		return status;
 	}
 
 	@Override
@@ -107,9 +105,8 @@ public class HSImpl implements HSService {
 	}
 
 	@Override
-	public Order updateOrder(Order order) {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateOrderStatus(Order order) {
+		helper.updateOrderStatus(order);
 	}
 
 	@Override

@@ -139,12 +139,13 @@ page.controller("OrdersController", function($scope, $http) {
 	    });
 	}
     
-    /** order related :: **/
     $scope.orders = null;
     $scope.selectedOrder = null;
     $scope.showOrder = function(order){
     	$scope.selectedOrder = order;
     }
+
+    
     
     $scope.sortOrder = function(sortField){
 		if($scope.sortType==sortField){
@@ -157,6 +158,16 @@ page.controller("OrdersController", function($scope, $http) {
 	
 	$scope.sortType="type";
 	$scope.sortReverse=false;
+	
+	$scope.updateOrderStatus = function(order){
+		var ordersResponse = $http.post("/hotspice-core/order/status", order, {});
+		ordersResponse.success(function(dataFromServer, status, headers, config) {
+			console.log(dataFromServer);
+		});
+		ordersResponse.error(function(data, status, headers, config) {
+	       alert("fetching orders failed!");
+	    });
+	}
 
     
 });

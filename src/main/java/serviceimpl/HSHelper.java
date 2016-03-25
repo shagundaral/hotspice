@@ -2,7 +2,9 @@ package serviceimpl;
 
 import java.util.List;
 
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import pojo.Customer;
 import pojo.FoodItem;
@@ -39,9 +41,8 @@ public class HSHelper {
 		return storedOrders;
 	}
 	
-	public String store(Object obj){
+	public void store(Object obj){
 		mongo.save(obj);
-		return "SUCCESS";
 	}
 	
 	public Integer generateFoodCode(){
@@ -50,6 +51,18 @@ public class HSHelper {
 	
 	public Integer generateOrderId(){
 		return mongo.getOrderCode();
+	}
+
+	public void updateOrderStatus(Order order) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("orderId").is(order.getOrderId()));
+		query.fields().include("orderId");
+		
+		Update update = new Update();
+		update.set("status", order.getStatus());
+		
+		mongo.updateOrderStatus(query, update, Order.class);
+				
 	}
 	
 

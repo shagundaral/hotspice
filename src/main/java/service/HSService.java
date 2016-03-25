@@ -26,12 +26,12 @@ public interface HSService {
 	Order createOrder(PlaceOrderRequest placeOrderRequest);
 	List<Order> retrieveOrders(Customer customer);
 	Order retrieveOrder(String orderId);
-	Order updateOrder(Order order);
+	void updateOrderStatus(Order order);
 	Order cancel(String orderId);
 	
 	//FOOD
 	List<FoodItem> retrieveFoodItems();
-	String addFoodItem(FoodItem foodItem);
+	void addFoodItem(FoodItem foodItem);
 	void updateFoodItem(FoodItem dish);
 	
 	//CUSTOMER

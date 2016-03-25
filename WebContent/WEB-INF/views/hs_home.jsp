@@ -97,18 +97,25 @@
 	
 			<div class="row">
 				<div class="col-lg-2 solid" ng-click="sortOrder('orderId'); ">order id</div>
-				<div class="col-lg-2 solid" ng-click="sortOrder('city');">city</div>
+				<div class="col-lg-2 solid" >customer Id</div>
 				<div class="col-lg-2 solid" ng-click="sortOrder('timeOfOrder');">timeOfOrder</div>
-				<div class="col-lg-2 solid" ng-click="sortOrder('timeOfDelivery');">timeOfDelivery</div>
+				<div class="col-lg-2 solid" ng-click="sortOrder('status');">status</div>
 				<div class="col-lg-2 solid" ng-click="sortOrder('totalAmount');">totalAmount</div>
 			</div>
 	
 		<div ng-repeat="order in orders.orders | orderBy:sortType:sortReverse ">
 			<div class="row" class="tr">
 				<div class="col-lg-2 solid">{{order.orderId}}</div>
-				<div class="col-lg-2 solid">{{order.city}}</div>
+				<div class="col-lg-2 solid" ng-click="showCustomerData(order.customer)">{{order.customer.id}}</div>
 				<div class="col-lg-2 solid">{{order.timeOfOrder}}</div>
-				<div class="col-lg-2 solid">{{order.timeOfDelivery}}</div>
+				<div class="col-lg-2 solid">
+				<select ng-model="order.status" ng-change="updateOrderStatus(order)">
+			      <option value="CONFIRMED">CONFIRMED</option>
+			      <option value="DISPATCHED">DISPATCHED</option>
+			      <option value="DELIVERED">DELIVERED</option>
+			      <option value="CANCELLED">CANCELLED</option>
+			    </select>
+				</div>
 				<div class="col-lg-2 solid">{{order.totalAmount}}</div>
 				<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>
 			</div>
@@ -116,9 +123,13 @@
 	<td>
 	<td class="col-lg-4 solid right">
 		<div ng-if="selectedOrder!=null" class="{solid : selectedOrder!=null}">
+		
+		Confirmed: {{orders.orderByStatusCount.CONFIRMED}} <p ng-show="orders.orderByStatusCount.DISPATCHED!=null"> Dispatched: {{orders.orderByStatusCount.DISPATCHED}} </p><p ng-show="orders.orderByStatusCount.DELIVERED!=null"> Delivered: {{orders.orderByStatusCount.DELIVERED}} </p><p ng-show="orders.orderByStatusCount.CANCELLED!=null"> Cancelled: {{orders.orderByStatusCount.CANCELLED}}</p> 
+		
+		
 			<form>
 				Order id: {{selectedOrder.orderId}}<br>
-				Status : {{selectedOrder.status.name}}<br>
+				Status : {{selectedOrder.status}}<br>
 				City: {{selectedOrder.city}}<br>
 				Time of Order: {{selectedOrder.timeOfOrder}}<br> 
 				Time of delivery: {{selectedOrder.timeOfDelivery}}<br>

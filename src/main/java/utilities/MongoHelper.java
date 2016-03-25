@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.OrderComparator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import pojo.FoodCode;
 import pojo.FoodItem;
@@ -78,6 +79,12 @@ public class MongoHelper {
 			}
 		}
 		return 01;
+	}
+
+	public void updateOrderStatus(Query query, Update update,
+			Class<Order> class1) {
+		mongoOperation.updateFirst(query, update, class1);
+		
 	}
 	
 

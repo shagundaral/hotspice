@@ -1,8 +1,10 @@
 package controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import pojo.Customer;
 import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
@@ -116,11 +117,9 @@ public class HSController {
 	 */
 	@RequestMapping(value = "/menu/item", method = RequestMethod.POST)
 	@ResponseBody
-	String getMenu(@RequestBody FoodItem foodItem){
+	void addFood(@RequestBody FoodItem foodItem){
 		//set auto generated code
 		service.addFoodItem(foodItem);
-		return "SUCCESS";
-		
 	}
 	
 	/**
@@ -132,19 +131,32 @@ public class HSController {
 	@ResponseBody
 	String getAllOrders(){
 		List<Order> orders = service.retrieveOrders(null);
+		Map<String, Integer> orderStatusCount = new HashMap<String, Integer>();
+		for (Order order : orders) {
+			if(orderStatusCount.containsKey(order.getStatus())){
+				orderStatusCount.put(String.valueOf(order.getStatus()), orderStatusCount.get(order.getStatus())+1);
+			}else{
+				orderStatusCount.put(String.valueOf(order.getStatus()), 1);
+			}
+		}
+		
 		OrdersResponse orderResp = new OrdersResponse();
 		orderResp.setOrders(orders);
-		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hs_home");
-		model.addObject("orders", gson.toJson(orderResp));
+		orderResp.setOrderByStatusCount(orderStatusCount);
 		
 		return gson.toJson(orderResp);
 	}
 	
+	@RequestMapping(value = "/order/status", method = RequestMethod.POST)
+	@ResponseBody
+	void updateOrderStatus(@RequestBody Order order){
+		service.updateOrderStatus(order);
+	}
+	
 	
 	/**
-	 * get all orders
+	 * get all order's json
+	 * used only for developer
 	 * 
 	 * @return
 	 */
@@ -157,6 +169,13 @@ public class HSController {
 		return orderResp;
 	}
 	
+	/**
+	 * not used in any ui screen
+	 * only for testing
+	 * 
+	 * @param order
+	 * @return
+	 */
 	@RequestMapping(value = "/storeOrder", method = RequestMethod.POST)
 	@ResponseBody
 	String storeOrder(@RequestBody Order order){
@@ -164,32 +183,4 @@ public class HSController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/order", method = RequestMethod.DELETE)
-	@ResponseBody
-	String deleteOrder(FoodItem item, String orderId){
-		return deleteOrder(item, orderId);
-	}
-
-	/**
-	 * change order status to cancelled
-	 * 
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
-	@ResponseBody
-	Order cancel(String orderId){
-		return service.cancel(orderId);
-	}	
-	
-	/**
-	 * 
-	 * @param foodItem
-	 * @return
-	 */
-	@RequestMapping(value = "/food", method = RequestMethod.GET)
-	@ResponseBody
-	String addFoodItem(FoodItem foodItem){
-		return service.addFoodItem(foodItem);
-	}
 }
