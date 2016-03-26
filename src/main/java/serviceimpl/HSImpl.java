@@ -48,7 +48,11 @@ public class HSImpl implements HSService {
 	public List<Order> retrieveOrders(Customer customer) {
 		List<Order> orders = null;
 		if(null!=helper){
-			orders = helper.getOrders(customer.getId());
+			if(null!=customer){
+				orders = helper.getOrders(customer.getId());
+			}else{
+				orders = helper.getOrders(0);
+			}
 		}
 		return orders;
 	}
