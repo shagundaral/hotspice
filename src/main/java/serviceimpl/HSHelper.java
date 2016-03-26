@@ -38,8 +38,12 @@ public class HSHelper {
 		return storedFoodItems;
 	}
 	
-	public List<Order> getOrders(Customer customer){
-		List<Order> storedOrders = mongo.getAllOrders(new Query(), Order.class);
+	public List<Order> getOrders(int  customerid){
+		Query query = new Query();
+		if(0!=customerid){
+			query.addCriteria(Criteria.where("customer.id").is(customerid));
+		}
+		List<Order> storedOrders = mongo.getAllOrders(query, Order.class);
 		return storedOrders;
 	}
 	
@@ -86,14 +90,21 @@ public class HSHelper {
 		update.set("imagePath", dish.getImagePath());
 		update.set("locations", dish.getLocations());
 		
-		
-		
 		mongo.updateFoodItem(query, update, FoodItem.class);
-		
 	}
 
 	public int generateCustomerId() {
 		return mongo.getCustomerId();
+	}
+
+	public Order getOrder(int customer, String orderId) {
+		Query query = new Query();
+		if(0!=customer && null!=orderId){
+			query.addCriteria(Criteria.where("customer.id").is(customer));
+			query.addCriteria(Criteria.where("orderId").is(orderId));
+		}
+		Order order = mongo.getCustomerOrder(query, Order.class);
+		return order;
 	}
 	
 

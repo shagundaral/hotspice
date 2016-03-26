@@ -14,6 +14,7 @@ import pojo.Customer;
 import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
+import pojo.OrdersResponse;
 import pojo.PlaceOrderRequest;
 import service.HSService;
 import serviceimpl.HSImpl;
@@ -108,17 +109,50 @@ public class CustomerController {
 		
 	}
 
-	
+	/**
+	 * 
+	 * @param placeOrderRequest
+	 * @param customer
+	 * @return
+	 */
 	@RequestMapping(value = "/customer/{customer}", method = RequestMethod.POST)
 	@ResponseBody
 	Order placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest, @PathVariable int customer){
 		return service.createOrder(placeOrderRequest);
 	}
 	
+	/**
+	 * 
+	 * @param customer
+	 * @return
+	 */
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	@ResponseBody
-	Order addCustomer(@RequestBody Customer customer){
+	String addCustomer(@RequestBody Customer customer){
 		return service.createCustomer(customer);
+	}
+	
+	/**
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/{customer}/orders", method = RequestMethod.GET)
+	@ResponseBody
+	OrdersResponse getCustomerOrders(@PathVariable int customer){
+		return service.getCustomerOrder(customer);
+	}
+	
+	/**
+	 * 
+	 * @param customer
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/{customer}/orders/{orderId}", method = RequestMethod.GET)
+	@ResponseBody
+	Order getCustomerOrders(@PathVariable int customer, @PathVariable String orderId){
+		return service.getCustomerOrderById(customer, orderId);
 	}
 	
 	

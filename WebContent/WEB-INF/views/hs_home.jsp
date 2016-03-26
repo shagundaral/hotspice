@@ -32,14 +32,16 @@
 
 <div>
 
+Foot Type:
 	<select ng-model="selectedType" id="selectedType" name="selectedType">
       <option ng-repeat="option in types" value="{{option}}">{{option}}</option>
     </select>
-    
+    &nbsp;&nbsp;&nbsp;
+Food Category:
     <select ng-model="selectedCategory">
       <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
     </select>
-    
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button ng-click="addFoodItem()"><a href="#newDish">Add new Dish</a></button>
 	
 	
@@ -56,12 +58,12 @@
   </form>
 
 			<div class="row">
-				<div class="col-lg-1 solid" ng-click="sortMenu('code'); ">code</div>
-				<div class="col-lg-2 solid" ng-click="sortMenu('name');">name</div>
-				<div class="col-lg-2 solid" ng-click="sortMenu('type');">type</div>
-				<div class="col-lg-2 solid" ng-click="sortMenu('available');">available</div>
-				<div class="col-lg-2 solid">currency</div>
-				<div class="col-lg-2 solid" ng-click="sortMenu('price');">price</div>
+				<div class="col-lg-1 solid highlightText" ng-click="sortMenu('code');">Code</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('name');">Name</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('type');">Type</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('available');">Available</div>
+				<div class="col-lg-2 solid highlightText">Currency</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('price');">Price</div>
 			</div>
 	
 		<div ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | filter:searchFood | orderBy:sortType:sortReverse">
@@ -117,11 +119,11 @@
 <script type = "text/ng-template" id = "orders.html">
 <div>
 
-	<p ng-show="orders.orderByStatusCount.CONFIRMED!=null" style="display: inline;" ng-click="selectedStatus='CONFIRMED'">Confirmed: {{orders.orderByStatusCount.CONFIRMED}} </p>
-	<p ng-show="orders.orderByStatusCount.DISPATCHED!=null" style="display: inline;" ng-click="selectedStatus='DISPATCHED'"> | Dispatched: {{orders.orderByStatusCount.DISPATCHED}} </p>
-	<p ng-show="orders.orderByStatusCount.DELIVERED!=null" style="display: inline;" ng-click="selectedStatus='DELIVERED'"> | Delivered: {{orders.orderByStatusCount.DELIVERED}} </p>
-	<p ng-show="orders.orderByStatusCount.CANCELLED!=null" style="display: inline;" ng-click="selectedStatus='CANCELLED'"> | Cancelled: {{orders.orderByStatusCount.CANCELLED}}</p>
-
+	<p ng-show="orders.orderByStatusCount.CONFIRMED!=null" style="display: inline; " ng-click="selectedStatus='CONFIRMED'">Confirmed: {{orders.orderByStatusCount.CONFIRMED}} </p>
+	<p ng-show="orders.orderByStatusCount.DISPATCHED!=null" style="display: inline; highlightText" ng-click="selectedStatus='DISPATCHED'"> | Dispatched: {{orders.orderByStatusCount.DISPATCHED}} </p>
+	<p ng-show="orders.orderByStatusCount.DELIVERED!=null" style="display: inline; highlightText" ng-click="selectedStatus='DELIVERED'"> | Delivered: {{orders.orderByStatusCount.DELIVERED}} </p>
+	<p ng-show="orders.orderByStatusCount.CANCELLED!=null" style="display: inline; highlightText" ng-click="selectedStatus='CANCELLED'"> | Cancelled: {{orders.orderByStatusCount.CANCELLED}}</p>
+	<br><br>
 
 <form>
     <div class="form-group">
@@ -134,11 +136,11 @@
 
 		
 			<div class="row">
-				<div class="col-lg-2 solid" ng-click="sortOrder('orderId'); ">order id</div>
-				<div class="col-lg-2 solid" >customer Id</div>
-				<div class="col-lg-4 solid" ng-click="sortOrder('timeOfOrder');">timeOfOrder</div>
-				<div class="col-lg-2 solid" ng-click="sortOrder('status');">status</div>
-				<div class="col-lg-2 solid" ng-click="sortOrder('totalAmount');">totalAmount</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('orderId'); ">Order Id</div>
+				<div class="col-lg-2 solid highlightText" >Customer Id</div>
+				<div class="col-lg-4 solid highlightText" ng-click="sortOrder('timeOfOrder');">Time Of Order</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('status');">Status</div>
+				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('totalAmount');">Total Amount</div>
 			</div>
 	
 		<div ng-repeat="order in orders.orders | filter:statusfilter | filter:searchText | orderBy:sortType:sortReverse ">

@@ -108,6 +108,11 @@ public class MongoHelper {
 		}
 		return 1;
 	}
+
+	public Order getCustomerOrder(Query query, Class<Order> class1) {
+		Order order = mongoOperation.findOne(query, class1);
+		return order;
+	}
 	
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
+import pojo.OrdersResponse;
 import pojo.PlaceOrderRequest;
 
 /**
@@ -15,12 +16,6 @@ import pojo.PlaceOrderRequest;
  *
  */
 public interface HSService {
-	
-	//String order(FoodItem item, String orderId);
-	
-	//Order book(String orderId);
-	
-	//String createOrder(Order order);
 	
 	//ORDER
 	Order createOrder(PlaceOrderRequest placeOrderRequest);
@@ -46,11 +41,7 @@ public interface HSService {
 	
 	//will be used for cart functionality
 	void addOrder(Order order);
+	OrdersResponse getCustomerOrder(int customer);
+	Order getCustomerOrderById(int customer, String orderId);
 	
-
-	
-
-
-	
-
 }

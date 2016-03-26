@@ -8,6 +8,7 @@ import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
 import pojo.OrderStatus;
+import pojo.OrdersResponse;
 import pojo.PlaceOrderRequest;
 import service.HSService;
 
@@ -47,7 +48,7 @@ public class HSImpl implements HSService {
 	public List<Order> retrieveOrders(Customer customer) {
 		List<Order> orders = null;
 		if(null!=helper){
-			orders = helper.getOrders(customer);
+			orders = helper.getOrders(customer.getId());
 		}
 		return orders;
 	}
@@ -143,6 +144,20 @@ public class HSImpl implements HSService {
 	public Order retrieveOrder(String orderId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public OrdersResponse getCustomerOrder(int customer) {
+		List<Order> orders = helper.getOrders(customer);
+		OrdersResponse orderResp = new OrdersResponse();
+		orderResp.setOrders(orders);
+		return orderResp;
+	}
+
+	@Override
+	public Order getCustomerOrderById(int customer, String orderId) {
+		Order order = helper.getOrder(customer, orderId);
+		return order;
 	}
 
 }
