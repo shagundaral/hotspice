@@ -58,8 +58,8 @@ Food Category:
   </form>
 
 			<div class="row">
-				<div class="col-lg-1 solid highlightText" ng-click="sortMenu('code');">Code</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('name');">Name</div>
+				<div class="col-lg-1 col-md-6 solid highlightText" ng-click="sortMenu('code');">Code</div>
+				<div class="col-lg-2 col-md-6 solid highlightText" ng-click="sortMenu('name');">Name</div>
 				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('type');">Type</div>
 				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('available');">Available</div>
 				<div class="col-lg-2 solid highlightText">Currency</div>
@@ -203,7 +203,8 @@ Food Category:
 	<div class="textBarsContainer">
 	<form>
 		Food Name: <input type="text" class="textBars" name="dishName" ng-model="newDish.name"><br>
-		Food Description: <input class="textBars" type="text" ng-model="newDish.description"><br> 
+		Food Description: <input class="textBars" type="text" ng-model="newDish.description"><br>
+		Food Type: <input class="textBars" type="text" ng-model="newDish.type"><br> 
 		Food Currency: <input type="text" class="textBars" ng-model="newDish.currency"><br>
 		Food Price: <input type="text" class="textBars" ng-model="newDish.price"><br>
 		Food Category: <input type="text" class="textBars" ng-model="newDish.category"><br>
