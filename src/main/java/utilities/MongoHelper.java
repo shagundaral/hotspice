@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.OrderComparator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -52,6 +51,7 @@ public class MongoHelper {
 	
 	public List<Order> getAllOrders(Query query, Class<Order> class1) {
 		List<Order> orders = mongoOperation.find(query, class1);
+		//mongoOperation.remove(new Query(), Order.class);
 		return orders;
 		
 	}
@@ -60,6 +60,10 @@ public class MongoHelper {
 		synchronized (this) {
 			FoodCode code = mongoOperation.findOne(new Query(), FoodCode.class);
 			if(null!=code){
+				Query query = new Query();
+				Update update = new Update();
+				update.set("code", code.getCode()+1);
+				mongoOperation.updateFirst(query, update, FoodCode.class);
 				return code.getCode()+1;
 			}else{
 				//store new code
@@ -73,20 +77,23 @@ public class MongoHelper {
 		synchronized (this) {
 			OrderIdNode code = mongoOperation.findOne(new Query(), OrderIdNode.class);
 			if(null!=code){
+				Query query = new Query();
+				Update update = new Update();
+				update.set("code", code.getCode()+1);
+				mongoOperation.updateFirst(query, update, OrderIdNode.class);
 				return code.getCode()+1;
 			}else{
 				//store new code
-				save(new OrderIdNode(01));
+				save(new OrderIdNode(1));
 			}
 		}
-		return 01;
+		return 1;
 	}
 
 	public void updateOrderStatus(Query query, Update update,
 			Class<Order> class1) {
 		
 		mongoOperation.updateFirst(query, update, class1);
-		//mongoOperation.remove(new Query(), Order.class);
 		
 	}
 
@@ -100,6 +107,10 @@ public class MongoHelper {
 		synchronized (this) {
 			CustomerId code = mongoOperation.findOne(new Query(), CustomerId.class);
 			if(null!=code){
+				Query query = new Query();
+				Update update = new Update();
+				update.set("code", code.getCode()+1);
+				mongoOperation.updateFirst(query, update, CustomerId.class);
 				return code.getCode()+1;
 			}else{
 				//store new code

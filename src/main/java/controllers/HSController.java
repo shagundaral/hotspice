@@ -125,6 +125,7 @@ public class HSController {
 	@ResponseBody
 	void addFood(@RequestBody FoodItem foodItem){
 		//set auto generated code
+		foodItem.setCode(service.generateFoodCode());
 		service.addFoodItem(foodItem);
 	}
 	
@@ -151,10 +152,11 @@ public class HSController {
 		List<Order> orders = service.retrieveOrders(null);
 		Map<String, Integer> orderStatusCount = new HashMap<String, Integer>();
 		for (Order order : orders) {
-			if(orderStatusCount.containsKey(order.getStatus())){
-				orderStatusCount.put(String.valueOf(order.getStatus()), orderStatusCount.get(order.getStatus())+1);
+			String status = String.valueOf(order.getStatus());
+			if(orderStatusCount.containsKey(status)){
+				orderStatusCount.put(status, orderStatusCount.get(status)+1);
 			}else{
-				orderStatusCount.put(String.valueOf(order.getStatus()), 1);
+				orderStatusCount.put(status, 1);
 			}
 		}
 		
