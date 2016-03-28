@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -121,6 +122,7 @@ public class HSController {
 	 * 
 	 * @return
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/menu/item", method = RequestMethod.POST)
 	@ResponseBody
 	void addFood(@RequestBody FoodItem foodItem){
@@ -134,6 +136,7 @@ public class HSController {
 	 * 
 	 * @return
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/menu/dish", method = RequestMethod.POST)
 	@ResponseBody
 	void editFoodItem(@RequestBody FoodItem foodItem){
@@ -146,6 +149,7 @@ public class HSController {
 	 * 
 	 * @return
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/view/orders", method = RequestMethod.GET)
 	@ResponseBody
 	String getAllOrders(){
