@@ -43,5 +43,6 @@ public interface HSService {
 	void addOrder(Order order);
 	OrdersResponse getCustomerOrder(int customer);
 	Order getCustomerOrderById(int customer, String orderId);
+	String removeItem(Object object);
 	
 }

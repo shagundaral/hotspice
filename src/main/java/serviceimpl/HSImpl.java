@@ -164,4 +164,10 @@ public class HSImpl implements HSService {
 		return order;
 	}
 
+	@Override
+	public String removeItem(Object object) {
+		return helper.deleteItem(object);
+		
+	}
+
 }

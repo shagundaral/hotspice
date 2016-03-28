@@ -107,5 +107,11 @@ public class HSHelper {
 		return order;
 	}
 	
+	public String deleteItem(Object object){
+		
+		return mongo.removeObject(object);
+		
+	}
+	
 
 }

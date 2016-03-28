@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+
 public class Order implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1982345678L;
+	
+	@Id
+	private String id;
 	private OrderStatus status;
 	private Date timeOfOrder;
 	private Date timeOfDelivery;

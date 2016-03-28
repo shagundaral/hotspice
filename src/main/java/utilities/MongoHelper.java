@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import com.mongodb.WriteResult;
+
 import pojo.CustomerId;
 import pojo.FoodCode;
 import pojo.FoodItem;
@@ -125,5 +127,9 @@ public class MongoHelper {
 		return order;
 	}
 	
+	public String removeObject(Object object){
+		WriteResult wr = mongoOperation.remove(object);
+		return String.valueOf(wr.getField("ok"));//expected: "1"
+	}
 
 }

@@ -144,7 +144,7 @@ page.controller("OrdersController", function($scope, $http) {
 
 	
 	if($scope.orders==null || $scope.orders==undefined){
-		var ordersResponse = $http.get("/view/orders", {}, {});
+		var ordersResponse = $http.get("/hotspice-core/view/orders", {}, {});
 		ordersResponse.success(function(dataFromServer, status, headers, config) {
 			console.log(dataFromServer);
 			$scope.orders = dataFromServer;
