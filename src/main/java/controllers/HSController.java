@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,7 @@ import com.google.gson.Gson;
  * @author Shagun
  *
  */
+@Secured("ROLE_USER")
 @Controller
 public class HSController {
 	
@@ -43,8 +46,8 @@ public class HSController {
 		service = new HSImpl();
 		gson = new Gson();
 	}
-
 	
+	private static final Logger logger = LoggerFactory.getLogger(HSController.class);
 	
 	@RequestMapping(value = "view/menu", method = RequestMethod.GET)
 	@ResponseBody

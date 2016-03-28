@@ -8,7 +8,10 @@ page.config(['$routeProvider',function($routeProvider){
     })
     .when('/orders', {
       templateUrl: 'orders.html',
-      controller:'OrdersController'
+      controller:'OrdersController',
+      access: {
+          requiresLogin: true
+      }
     })
     .when('/newDish', {
         templateUrl: 'add_dish.html',

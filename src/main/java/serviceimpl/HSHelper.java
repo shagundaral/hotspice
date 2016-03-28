@@ -112,6 +112,14 @@ public class HSHelper {
 		return mongo.removeObject(object);
 		
 	}
+
+	public List<Customer> getCustomers(int customerId) {
+		Query query = new Query();
+		if(customerId>0){
+			query.addCriteria(Criteria.where("id").is(customerId));
+		}
+		return mongo.getCustomers(query, Customer.class);
+	}
 	
 
 }

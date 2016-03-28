@@ -56,7 +56,7 @@
 	</bean> -->
 	
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/view/menu" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/view/*" access="hasRole('ROLE_USER')" />
 	</security:http>
 
 	<security:authentication-manager>
@@ -68,5 +68,27 @@
 	</security:authentication-manager>
 	
 	<security:global-method-security secured-annotations="enabled" />
+	
+	<!-- <security:http use-expressions="true">
+	  <security:intercept-url pattern="/view/*" access="authenticated"/>
+	  <security:logout
+	    logout-success-url="/login?logout"
+	    logout-url="/logout"
+	  />
+	  <security:form-login
+	    authentication-failure-url="/login?error"
+	    login-page="/login"
+	    login-processing-url="/login"
+	    password-parameter="123456"
+	    username-parameter="shagun"
+	  />
+	</security:http>
+	<security:authentication-manager>
+	  <security:authentication-provider>
+	    <security:user-service>
+	     	<security:user name="shagun" password="123456" authorities="ROLE_USER" />
+	    </security:user-service>
+	  </security:authentication-provider>
+	</security:authentication-manager> -->
 
 </beans>

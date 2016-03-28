@@ -8,13 +8,14 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.WriteResult;
-
+import pojo.Customer;
 import pojo.CustomerId;
 import pojo.FoodCode;
 import pojo.FoodItem;
 import pojo.Order;
 import pojo.OrderIdNode;
+
+import com.mongodb.WriteResult;
 
 public class MongoHelper {
 	
@@ -130,6 +131,11 @@ public class MongoHelper {
 	public String removeObject(Object object){
 		WriteResult wr = mongoOperation.remove(object);
 		return String.valueOf(wr.getField("ok"));//expected: "1"
+	}
+
+	public List<Customer> getCustomers(Query query, Class<Customer> class1) {
+		
+		return mongoOperation.find(query, class1);
 	}
 
 }

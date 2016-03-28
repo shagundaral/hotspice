@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import controllers.HSController;
 import pojo.Customer;
 import pojo.FoodItem;
 import pojo.Order;
@@ -15,6 +19,7 @@ import service.HSService;
 public class HSImpl implements HSService {
 	
 	static HSHelper helper;
+	private static final Logger logger = LoggerFactory.getLogger(HSImpl.class);
 	
 	static{
 		helper = new HSHelper();
@@ -27,6 +32,8 @@ public class HSImpl implements HSService {
 		List<FoodItem> foodItems = null;
 		if(null!=helper){
 			foodItems = helper.getFoodItems();
+		}else{
+			logger.error("DAO layer not initialized");
 		}
 		return foodItems;
 	}
@@ -78,6 +85,7 @@ public class HSImpl implements HSService {
 	public Order createOrder(PlaceOrderRequest placeOrderRequest) {
 		Order order = new Order();
 		order.setOrderId("HS"+helper.generateOrderId());
+		logger.error("New Order received:: "+order.getOrderId());
 		order.setAddress(placeOrderRequest.getCustomer().getAddress());
 		order.setCity(placeOrderRequest.getCustomer().getCity());
 		order.setCustomer(placeOrderRequest.getCustomer());
@@ -117,7 +125,9 @@ public class HSImpl implements HSService {
 	@Override
 	public String createCustomer(Customer customer) {
 		int id = helper.generateCustomerId();
-		return null;
+		customer.setId(id);
+		helper.store(customer);
+		return String.valueOf(id);
 	}
 
 	@Override
@@ -134,8 +144,7 @@ public class HSImpl implements HSService {
 
 	@Override
 	public List<Customer> retrieveCustomer(int customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return helper.getCustomers(customerId);
 	}
 
 	@Override
