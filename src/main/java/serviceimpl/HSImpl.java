@@ -179,4 +179,10 @@ public class HSImpl implements HSService {
 		
 	}
 
+	@Override
+	public List<Order> retrievePaginatedOrders(int pageNumber) {
+		
+		return helper.getPaginatedOrders(pageNumber);
+	}
+
 }

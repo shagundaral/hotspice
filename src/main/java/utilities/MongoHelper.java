@@ -2,6 +2,7 @@ package utilities;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -18,6 +19,9 @@ import pojo.OrderIdNode;
 import com.mongodb.WriteResult;
 
 public class MongoHelper {
+	
+//	@Value("${orders.pagination.pagesize}")
+    private int pageSize=1;
 	
 	MongoOperations mongoOperation = null;
 	static MongoHelper mongoHelper;
@@ -136,6 +140,11 @@ public class MongoHelper {
 	public List<Customer> getCustomers(Query query, Class<Customer> class1) {
 		
 		return mongoOperation.find(query, class1);
+	}
+
+	public List<Order> getPaginatedOrders(int pageNumber) {
+		
+		return mongoOperation.find(new Query(), Order.class).subList(pageNumber*pageSize, (pageNumber*pageSize)+pageSize);
 	}
 
 }

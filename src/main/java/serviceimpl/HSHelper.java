@@ -120,6 +120,11 @@ public class HSHelper {
 		}
 		return mongo.getCustomers(query, Customer.class);
 	}
+
+	public List<Order> getPaginatedOrders(int pageNumber) {
+		return mongo.getPaginatedOrders(pageNumber);
+		
+	}
 	
 
 }

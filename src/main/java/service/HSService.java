@@ -20,6 +20,7 @@ public interface HSService {
 	//ORDER
 	Order createOrder(PlaceOrderRequest placeOrderRequest);
 	List<Order> retrieveOrders(Customer customer);
+	List<Order> retrievePaginatedOrders(int pageNumber);
 	Order retrieveOrder(String orderId);
 	void updateOrderStatus(Order order);
 	Order cancel(String orderId);

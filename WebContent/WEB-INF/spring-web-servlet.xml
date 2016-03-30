@@ -90,5 +90,10 @@
 	    </security:user-service>
 	  </security:authentication-provider>
 	</security:authentication-manager> -->
-
+	
+	
+	
+	<bean class="com.mangofactory.swagger.configuration.DocumentationConfig" />
+    <context:property-placeholder location="classpath:../resources/hs_application.properties" /> 
+	
 </beans>

@@ -174,6 +174,36 @@ public class HSController {
 		return gson.toJson(orderResp);
 	}
 	
+	
+	/**
+	 * view orders paginated
+	 * 
+	 * @return
+	 */
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/view/orders/{pageNumber}", method = RequestMethod.GET)
+	@ResponseBody
+	String getPaginatedOrders(@PathVariable int pageNumber){
+		List<Order> orders = service.retrievePaginatedOrders(pageNumber);
+/*		Map<String, Integer> orderStatusCount = new HashMap<String, Integer>();
+		for (Order order : orders) {
+			String status = String.valueOf(order.getStatus());
+			if(orderStatusCount.containsKey(status)){
+				orderStatusCount.put(status, orderStatusCount.get(status)+1);
+			}else{
+				orderStatusCount.put(status, 1);
+			}
+		}
+		
+*/		OrdersResponse orderResp = new OrdersResponse();
+		orderResp.setOrders(orders);
+//		orderResp.setOrderByStatusCount(orderStatusCount);
+		
+		return gson.toJson(orderResp);
+	}
+	
+	
+	
 	@RequestMapping(value = "/order/status", method = RequestMethod.POST)
 	@ResponseBody
 	void updateOrderStatus(@RequestBody Order order){
