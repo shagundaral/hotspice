@@ -32,7 +32,7 @@ public class CustomerController {
 		gson = new Gson();
 	}
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	@ResponseBody
 	MenuResponse getMenu(){
 		
@@ -41,7 +41,7 @@ public class CustomerController {
 		MenuResponse menuresponse = new MenuResponse();
 		List<FoodItem> foodItems = service.retrieveFoodItems();
 		
-		/*OrdersResponse orderResp = new OrdersResponse();
+		OrdersResponse orderResp = new OrdersResponse();
 		
 		Order order = new Order();
 		order.setOrderId("order 1");
@@ -58,9 +58,9 @@ public class CustomerController {
 		order.setTotalAmount(500);
 		List<Order> orders = new ArrayList<Order>();
 		orders.add(order);
-		orderResp.setOrders(orders);*/
+		orderResp.setOrders(orders);
 		
-		/*Customer customer = new Customer();
+		Customer customer = new Customer();
 		customer.setEmailId("shagun.daral@gmail.com");
 		customer.setPhoneNumber("9818578118");
 		customer.setAddress("312/32 gurgaon");
@@ -74,14 +74,18 @@ public class CustomerController {
 		}
 		req.setFoodItemIds(foodIds);
 		
-		System.out.println(gson.toJson(req));*/
+		System.out.println(gson.toJson(req));
+		
+		Order o = new Order();
+		o.setOrderId("HS2");
+		System.out.println(gson.toJson(o));
 		
 		menuresponse.setMenu(foodItems);
 		return menuresponse;
 		
 	}
 		
-	
+*/	
 	/**
 	 * filter menu item by category
 	 * for the app

@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +22,6 @@ import pojo.FoodItem;
 import pojo.MenuResponse;
 import pojo.Order;
 import pojo.OrdersResponse;
-import pojo.PlaceOrderRequest;
 import service.HSService;
 import serviceimpl.HSImpl;
 
@@ -35,8 +33,8 @@ import com.google.gson.Gson;
  * @author Shagun
  *
  */
-@Secured("ROLE_USER")
 @Controller
+@RequestMapping("/")
 public class HSController {
 	
 	static HSService service;
@@ -49,9 +47,22 @@ public class HSController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HSController.class);
 	
-	@RequestMapping(value = "view/menu", method = RequestMethod.GET)
+	@RequestMapping(value = "view", method = RequestMethod.GET)
 	@ResponseBody
-	ModelAndView getMenuView(){
+	ModelAndView getView(){
+		
+		ModelAndView model = new ModelAndView();
+		model.setViewName("hs_home");
+
+		return model;
+		
+	}
+	
+
+	
+	@RequestMapping(value = "menu", method = RequestMethod.GET)
+	@ResponseBody
+	String getMenuView(){
 		
 		MenuResponse menuresponse = new MenuResponse();
 		List<FoodItem> foodItems = service.retrieveFoodItems();
@@ -72,14 +83,10 @@ public class HSController {
 		menuresponse.setCategories(categories);
 		menuresponse.setTypes(types);
 		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hs_home");
-		model.addObject("menu", gson.toJson(menuresponse));
-
-		return model;
+		return gson.toJson(menuresponse);
 		
 	}
-	
+
 	
 
 	/**
@@ -125,7 +132,6 @@ public class HSController {
 	 * 
 	 * @return
 	 */
-	@Secured("ROLE_USER")
 	@RequestMapping(value = "/menu/item", method = RequestMethod.POST)
 	@ResponseBody
 	void addFood(@RequestBody FoodItem foodItem){
@@ -139,7 +145,6 @@ public class HSController {
 	 * 
 	 * @return
 	 */
-	@Secured("ROLE_USER")
 	@RequestMapping(value = "/menu/dish", method = RequestMethod.POST)
 	@ResponseBody
 	void editFoodItem(@RequestBody FoodItem foodItem){
@@ -152,8 +157,7 @@ public class HSController {
 	 * 
 	 * @return
 	 */
-	@Secured("ROLE_USER")
-	@RequestMapping(value = "/view/orders", method = RequestMethod.GET)
+	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	@ResponseBody
 	String getAllOrders(){
 		List<Order> orders = service.retrieveOrders(null);
@@ -181,7 +185,7 @@ public class HSController {
 	 * @return
 	 */
 	@Secured("ROLE_USER")
-	@RequestMapping(value = "/view/orders/{pageNumber}", method = RequestMethod.GET)
+	@RequestMapping(value = "/orders/{pageNumber}", method = RequestMethod.GET)
 	@ResponseBody
 	String getPaginatedOrders(@PathVariable int pageNumber){
 		List<Order> orders = service.retrievePaginatedOrders(pageNumber);
@@ -216,7 +220,7 @@ public class HSController {
 	 * used only for developer
 	 * 
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	@ResponseBody
 	OrdersResponse getOrders(){
@@ -231,7 +235,7 @@ public class HSController {
 		orderResp.setOrders(orders);
 		return orderResp;
 	}
-	
+	*/
 	/**
 	 * not used in any ui screen
 	 * only for testing

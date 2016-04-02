@@ -50,7 +50,6 @@ public class MongoHelper {
 
 	public List<FoodItem> getAllFoodItems(Query query, Class<FoodItem> class1) {
 		//return null;
-		
 		List<FoodItem> foodItems = mongoOperation.find(query, class1);
 		return foodItems;
 		

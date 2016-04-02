@@ -35,6 +35,7 @@ public class HSHelper {
 				storedFoodItems = foodFilter.filter(storedFoodItems);
 			}
 		}*/
+		
 		return storedFoodItems;
 	}
 	

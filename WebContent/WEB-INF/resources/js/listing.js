@@ -9,9 +9,7 @@ page.config(['$routeProvider',function($routeProvider){
     .when('/orders', {
       templateUrl: 'orders.html',
       controller:'OrdersController',
-      access: {
-          requiresLogin: true
-      }
+      
     })
     .when('/newDish', {
         templateUrl: 'add_dish.html',
@@ -21,17 +19,34 @@ page.config(['$routeProvider',function($routeProvider){
 
 page.controller("HSController", function($scope, $http) {
 
-	$scope.menu = window.menuItems;
-	$scope.menuItems = window.menuItems.menu;
-	$scope.categories = window.menuItems.categories;
-	$scope.types = window.menuItems.types;
+	$scope.menu = null;
+	$scope.menuItems = {};
+	$scope.categories = {};
+	$scope.types = {};
+	
+	
+	if($scope.menu==null || $scope.menu==undefined){
+		var menuResp = $http.get("menu", {}, {});
+		menuResp.success(function(dataFromServer, status, headers, config) {
+			console.log("menu");
+			console.log(dataFromServer);
+			$scope.menu = dataFromServer;
+			$scope.menuItems = $scope.menu.menu;
+			$scope.categories = dataFromServer.categories;
+			$scope.types = dataFromServer.types;
+			
+		});
+		menuResp.error(function(data, status, headers, config) {
+	       alert("fetching menu failed!");
+	    });
+	}
 	
 	
 	$scope.selectedType = "All";
 	$scope.selectedCategory = "All";
 	
 	$scope.filterItem = {
-	    category: window.menuItems.menu
+	    category: $scope.menuItems
 	  }
 
 	$scope.selectedFoodItem = null;
@@ -99,7 +114,7 @@ page.controller("HSController", function($scope, $http) {
 
         console.log(dataObject);
         
-        var responsePromise = $http.post("/menu/item", dataObject, {});
+        var responsePromise = $http.post("menu/item", dataObject, {});
         responsePromise.success(function(dataFromServer, status, headers, config) {
            console.log(dataFromServer.title);
            alert("Food Item successfully added");
@@ -110,13 +125,19 @@ page.controller("HSController", function($scope, $http) {
       }
     
     $scope.editFood = function(){
-    	var responsePromise = $http.post("/menu/dish", $scope.selectedFoodItem, {});
+    	var responsePromise = $http.post("menu/dish", $scope.selectedFoodItem, {});
         responsePromise.success(function(dataFromServer, status, headers, config) {
-           console.log(dataFromServer);
+        	$scope.foodEditedMessage = "Meal was edited successfully !!"
+            $scope.foodEdited = true;
+        	console.log("message "+$scope.foodEditedMessage + " status "+$scope.foodEdited );
+        
         });
          responsePromise.error(function(data, status, headers, config) {
-           alert("Submitting form failed!");
+        	 $scope.foodEditedMessage = "OOPS!! something went wrong."
+             $scope.foodEdited = false;
+        	 console.log("message "+$scope.foodEditedMessage + " status "+$scope.foodEdited );
         });
+        
     }
     
     
@@ -147,7 +168,7 @@ page.controller("OrdersController", function($scope, $http) {
 
 	
 	if($scope.orders==null || $scope.orders==undefined){
-		var ordersResponse = $http.get("/view/orders", {}, {});
+		var ordersResponse = $http.get("orders", {}, {});
 		ordersResponse.success(function(dataFromServer, status, headers, config) {
 			console.log(dataFromServer);
 			$scope.orders = dataFromServer;
@@ -187,9 +208,13 @@ page.controller("OrdersController", function($scope, $http) {
 	$scope.sortReverse=false;
 	
 	$scope.updateOrderStatus = function(order){
-		var ordersResponse = $http.post("/order/status", order, {});
+		var new_order = {};
+		new_order.orderId = order.orderId;
+		new_order.status = order.status;
+		var ordersResponse = $http.post("order/status", new_order, {});
 		ordersResponse.success(function(dataFromServer, status, headers, config) {
 			console.log(dataFromServer);
+			alert("status updated!");
 		});
 		ordersResponse.error(function(data, status, headers, config) {
 	       alert("fetching orders failed!");

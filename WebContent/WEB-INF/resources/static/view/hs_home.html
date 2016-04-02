@@ -1,15 +1,12 @@
 <html>
 
 
-<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
-<link rel="stylesheet" href="../resources/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="../resources/css/base-style.css">
+<link rel="stylesheet" href="../hotspice-core/resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../hotspice-core/resources/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../hotspice-core/resources/css/base-style.css">
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script>
-	var menuItems = ${menu};
-	
-</script>
 <body ng-app="hotspice">
 <div id="header">Hot Spice</div>
  <div id="nav">
@@ -30,21 +27,26 @@
 
 <div class="row">
 
-<div>
-
-Foot Type:
+<div class="col-sm-2 left">Food Type:
 	<select ng-model="selectedType" id="selectedType" name="selectedType">
       <option ng-repeat="option in types" value="{{option}}">{{option}}</option>
     </select>
-    &nbsp;&nbsp;&nbsp;
+</div>
+    
+    
+    <div class="col-sm-4 left">
 Food Category:
     <select ng-model="selectedCategory">
       <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
     </select>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    
+    <div class="col-sm-2 left">
     <button ng-click="addFoodItem()"><a href="#newDish">Add new Dish</a></button>
+	</div>
 	
-	
+	<div class="col-sm-4 left"></div>
+
 </div>
 <br>
 
@@ -57,23 +59,27 @@ Food Category:
     </div>
   </form>
 
-			<div class="row">
-				<div class="col-lg-1 col-md-6 solid highlightText" ng-click="sortMenu('code');">Code</div>
-				<div class="col-lg-2 col-md-6 solid highlightText" ng-click="sortMenu('name');">Name</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('type');">Type</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('available');">Available</div>
-				<div class="col-lg-2 solid highlightText">Currency</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortMenu('price');">Price</div>
+<div ng-if="foodEditedMessage!=null" ng-class="{'alert alert-success':foodEdited,'alert alert-danger':!foodEdited}">
+  <strong>{{foodEditedMessage}}</strong>
+</div>
+
+			<div class="row row_padding">
+				<div class="col-lg-1 col-sm-6 col-xs-6 col-md-4 solid highlightText" ng-click="sortMenu('code');">Code</div>
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid highlightText" ng-click="sortMenu('name');">Name</div>
+				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid highlightText" ng-click="sortMenu('type');">Type</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText" ng-click="sortMenu('available');">Available</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText">Currency</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText" ng-click="sortMenu('price');">Price</div>
 			</div>
 	
-		<div ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | filter:searchFood | orderBy:sortType:sortReverse">
-			<div class="row" class="tr">
-				<div class="col-lg-1 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#FoodItemModal" ng-click="changeSelectedFood(food)">{{food.code}}</div>
-				<div class="col-lg-2 solid">{{food.name | cut:true:20:' ...'}}</div>
-				<div class="col-lg-2 solid">{{food.type}}</div>
-				<div class="col-lg-2 solid">{{food.available}}</div>
-				<div class="col-lg-2 solid">{{food.currency}}</div>
-				<div class="col-lg-2 solid">{{food.price}}</div>
+		<div ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | filter:searchFood | orderBy:sortType:sortReverse" >
+			<div class="row row_padding" class="tr">
+				<div class="col-lg-1 col-sm-6 col-xs-6 col-md-4 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#FoodItemModal" ng-click="changeSelectedFood(food)">{{food.code}}</div>
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid">{{food.name | cut:true:20:' ...'}}</div>
+				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid">{{food.type}}</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.available}}</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.currency}}</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.price}}</div>
 				
 			</div>
 		</div>
@@ -99,7 +105,7 @@ Food Category:
 				Food Currency: <input type="text" class="textBars1" value="{{selectedFoodItem.currency}}" ng-model="selectedFoodItem.currency"><br>
 				Food Price: <input type="text" class="textBars1" value="{{selectedFoodItem.price}}" ng-model="selectedFoodItem.price"><br>
 				Food Category: <input type="text" class="textBars1" value="{{selectedFoodItem.category}}" ng-model="selectedFoodItem.category"><br>
-				<button ng-click="editFood()">Edit</button>
+				<button ng-click="editFood()" data-dismiss="modal">Edit</button>
 			</form>
 
 		</div>
@@ -136,19 +142,19 @@ Food Category:
 
 		
 			<div class="row">
-				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('orderId'); ">Order Id</div>
-				<div class="col-lg-2 solid highlightText" >Customer Id</div>
-				<div class="col-lg-4 solid highlightText" ng-click="sortOrder('timeOfOrder');">Time Of Order</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('status');">Status</div>
-				<div class="col-lg-2 solid highlightText" ng-click="sortOrder('totalAmount');">Total Amount</div>
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid highlightText" ng-click="sortOrder('orderId'); ">Order Id</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText" >Customer Id</div>
+				<div class="col-lg-4 hidden-md hidden-sm hidden-xs solid highlightText" ng-click="sortOrder('timeOfOrder');">Time Of Order</div>
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid highlightText" ng-click="sortOrder('status');">Status</div>
+				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid highlightText" ng-click="sortOrder('totalAmount');">Total Amount</div>
 			</div>
 	
 		<div ng-repeat="order in orders.orders | filter:statusfilter | filter:searchText | orderBy:sortType:sortReverse ">
 			<div class="row" class="tr">
-				<div class="col-lg-2 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#orderModal" ng-click="showOrder(order)">{{order.orderId}}</div>
-				<div class="col-lg-2 solid" ng-click="showCustomerData(order.customer)">{{order.customer.id}}</div>
-				<div class="col-lg-4 solid">{{order.timeOfOrder}}</div>
-				<div class="col-lg-2 solid">
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid" class="btn btn-info btn-lg" data-toggle="modal" data-target="#orderModal" ng-click="showOrder(order)">{{order.orderId}}</div>
+				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid" ng-click="showCustomerData(order.customer)">{{order.customer.id}}</div>
+				<div class="col-lg-4 hidden-md hidden-sm hidden-xs solid">{{order.timeOfOrder}}</div>
+				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid">
 				<select ng-model="order.status" ng-change="updateOrderStatus(order)">
 			      <option value="CONFIRMED">CONFIRMED</option>
 			      <option value="DISPATCHED">DISPATCHED</option>
@@ -156,7 +162,7 @@ Food Category:
 			      <option value="CANCELLED">CANCELLED</option>
 			    </select>
 				</div>
-				<div class="col-lg-2 solid">{{order.totalAmount}}</div>
+				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid">{{order.totalAmount}}</div>
 				<!--<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>-->
 			</div>
 		</div>
@@ -210,18 +216,18 @@ Food Category:
 		Food Category: <input type="text" class="textBars" ng-model="newDish.category"><br>
 		Location: <input type="text" class="textBars" ng-model="newDish.locations"><br>
 		Image path: <input type="text" class="textBars" ng-model="newDish.imagePath"><br>
-		Available : <input type="radio" class="radioBar" ng-model="newDish.available" value="Yes"> Yes  
-					<input type="radio" class="radioBar" ng-model="newDish.available" value="No"> No <br>
+		Available : <input type="radio" class="radioBar" ng-model="newDish.available" value="true"> Yes  
+					<input type="radio" class="radioBar" ng-model="newDish.available" value="false"> No <br>
 		<div class="formSubmit" ng-click="newDish.add()">Save</div>
 	</form>
 	</div>
 </div>
 </script>
 
-<script src="../resources/js/jquery.min.js"></script>
-<script src="../resources/js/angular.js"></script>	
-<script src="../resources/js/bootstrap.min.js"></script>
-<script src = "../resources/js/angular-route.min.js"></script>
-<script src="../resources/js/listing.js"></script>
+<script src="../hotspice-core/resources/js/jquery.min.js"></script>
+<script src="../hotspice-core/resources/js/angular.js"></script>	
+<script src="../hotspice-core/resources/js/bootstrap.min.js"></script>
+<script src = "../hotspice-core/resources/js/angular-route.min.js"></script>
+<script src="../hotspice-core/resources/js/listing.js"></script>
 
 </html>

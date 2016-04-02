@@ -108,3 +108,7 @@ tr:nth-child(odd) {
 .mix_nonveg {
 	background-color: red;
 }
+
+.row_padding {
+	margin-left: 0px;
+}

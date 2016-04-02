@@ -31,10 +31,10 @@
     <bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
-			<value>/WEB-INF/views/</value>
+			<value>/resources/static/view/</value>
 		</property>
 		<property name="suffix">
-			<value>.jsp</value>
+			<value>.html</value>
 		</property>
 	</bean>
     
@@ -56,7 +56,8 @@
 	</bean> -->
 	
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/view/*" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
 	</security:http>
 
 	<security:authentication-manager>
@@ -69,31 +70,8 @@
 	
 	<security:global-method-security secured-annotations="enabled" />
 	
-	<!-- <security:http use-expressions="true">
-	  <security:intercept-url pattern="/view/*" access="authenticated"/>
-	  <security:logout
-	    logout-success-url="/login?logout"
-	    logout-url="/logout"
-	  />
-	  <security:form-login
-	    authentication-failure-url="/login?error"
-	    login-page="/login"
-	    login-processing-url="/login"
-	    password-parameter="123456"
-	    username-parameter="shagun"
-	  />
-	</security:http>
-	<security:authentication-manager>
-	  <security:authentication-provider>
-	    <security:user-service>
-	     	<security:user name="shagun" password="123456" authorities="ROLE_USER" />
-	    </security:user-service>
-	  </security:authentication-provider>
-	</security:authentication-manager> -->
-	
-	
 	
 	<bean class="com.mangofactory.swagger.configuration.DocumentationConfig" />
-    <context:property-placeholder location="classpath:../resources/hs_application.properties" /> 
+    <context:property-placeholder location="classpath:../resources/swagger.properties" /> 
 	
 </beans>
