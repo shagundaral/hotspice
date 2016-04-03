@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -144,6 +145,13 @@ public class MongoHelper {
 	public List<Order> getPaginatedOrders(int pageNumber) {
 		
 		return mongoOperation.find(new Query(), Order.class).subList(pageNumber*pageSize, (pageNumber*pageSize)+pageSize);
+	}
+
+	public void delete(FoodItem dish) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("code").is(dish.getCode()));
+		mongoOperation.remove(query, FoodItem.class);
+		
 	}
 
 }

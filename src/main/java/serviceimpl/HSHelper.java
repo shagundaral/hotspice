@@ -80,7 +80,6 @@ public class HSHelper {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("code").is(dish.getCode()));
 		query.fields().include("code");
-		
 		Update update = new Update();
 		update.set("name", dish.getName());
 		update.set("category", dish.getCategory());

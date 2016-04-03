@@ -1,0 +1,46 @@
+
+<div ng-controller="HSController" >
+	<div class="row">
+		<div class="col-sm-2">Food Name: </div><input type="text" name="dishName" ng-model="newDish.name" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Food Description: </div><input type="text" ng-model="newDish.description" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Food Type: </div><input type="text" ng-model="newDish.type" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Food Currency: </div><input type="text" ng-model="newDish.currency" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Food Price: </div><input type="text" ng-model="newDish.price" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Food Category: </div><input type="text" ng-model="newDish.category" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Location: </div><input type="text"ng-model="newDish.locations" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Image path: </div><input type="text" ng-model="newDish.imagePath" class="col-sm-4">
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<div class="col-sm-2">Available : </div>
+		
+		<div class="col-sm-2"><input type="radio" ng-model="newDish.available" value="true">Yes</div>
+		<div class="col-sm-2"><input type="radio" ng-model="newDish.available" value="false">No</div>
+		
+		<div class="col-sm-6"></div>
+	</div></br>
+	<div class="row">
+		<button type="button" class="btn btn-default btn-placement" ng-click="newDish.add()">Save</button>
+	</div>
+</div>

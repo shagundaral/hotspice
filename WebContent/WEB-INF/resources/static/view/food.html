@@ -1,0 +1,119 @@
+
+<div class="row">
+
+	<div class="col-sm-3 left">
+		Food Type: <select ng-model="selectedType" id="selectedType"
+			name="selectedType">
+			<option ng-repeat="option in types" value="{{option}}">{{option}}</option>
+		</select>
+	</div>
+
+
+	<div class="col-sm-4 left">
+		Food Category: <select ng-model="selectedCategory">
+			<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+		</select>
+	</div>
+
+	<div class="col-sm-2 left">
+		<button ng-click="addFoodItem()">
+			<a href="#newDish">Add new Dish</a>
+		</button>
+	</div>
+
+	<div class="col-sm-3 left"></div>
+
+</div>
+<br>
+
+<form>
+	<div class="form-group">
+		<div class="input-group">
+			<div class="input-group-addon">
+				<i class="fa fa-search"></i>
+			</div>
+			<input type="text" class="form-control"
+				placeholder="Search Food Item" ng-model="searchFood">
+		</div>
+	</div>
+</form>
+
+<div ng-if="foodEditedMessage!=null"
+	ng-class="{'alert alert-success':foodEdited,'alert alert-danger':!foodEdited}">
+	<strong>{{foodEditedMessage}}</strong>
+</div>
+
+<div class="row row_padding">
+	<div class="col-lg-1 col-sm-6 col-xs-6 col-md-4 solid highlightText"
+		ng-click="sortMenu('code');">Code</div>
+	<div class="col-lg-3 col-sm-6 col-xs-6 col-md-4 solid highlightText"
+		ng-click="sortMenu('name');">Name</div>
+	<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid highlightText"
+		ng-click="sortMenu('type');">Type</div>
+	<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText"
+		ng-click="sortMenu('available');">Available</div>
+	<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText">Currency</div>
+	<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText"
+		ng-click="sortMenu('price');">Price</div>
+</div>
+
+<div
+	ng-repeat="food in menuItems | filter:typefilter:true | filter:categoryfilter | filter:searchFood | orderBy:sortType:sortReverse">
+	<div class="row row_padding" class="tr">
+		<div class="col-lg-1 col-sm-6 col-xs-6 col-md-4 solid"
+			class="btn btn-info btn-lg" data-toggle="modal"
+			data-target="#FoodItemModal" ng-click="changeSelectedFood(food)">{{food.code}}</div>
+		<div class="col-lg-3 col-sm-6 col-xs-6 col-md-4 solid">{{food.name
+			| cut:true:20:' ...'}}</div>
+		<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid">{{food.type}}</div>
+		<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.available}}</div>
+		<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.currency}}</div>
+		<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid">{{food.price}}</div>
+
+	</div>
+</div>
+
+
+</div>
+
+
+<div id="FoodItemModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">{{selectedFoodItem.code}}</h4>
+			</div>
+			<div class="modal-body">
+				<div ng-if="selectedFoodItem!=null"
+					class="{solid : selectedFoodItem!=null} textBarsContainer1">
+					<form action="">
+						Food Name: <input type="text" class="textBars1"
+							value="{{selectedFoodItem.name}}"
+							ng-model="selectedFoodItem.name"><br> Food
+						Description: <input type="text" class="textBars1"
+							value="{{selectedFoodItem.description}}"
+							ng-model="selectedFoodItem.description"><br> Food
+						Currency: <input type="text" class="textBars1"
+							value="{{selectedFoodItem.currency}}"
+							ng-model="selectedFoodItem.currency"><br> Food
+						Price: <input type="text" class="textBars1"
+							value="{{selectedFoodItem.price}}"
+							ng-model="selectedFoodItem.price"><br> Food
+						Category: <input type="text" class="textBars1"
+							value="{{selectedFoodItem.category}}"
+							ng-model="selectedFoodItem.category"><br>
+						<button ng-click="editFood()" data-dismiss="modal">Edit</button>
+					</form>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
