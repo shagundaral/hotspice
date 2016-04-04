@@ -1,6 +1,5 @@
 <html>
 
-
 <link rel="stylesheet" href="../hotspice-core/resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../hotspice-core/resources/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../hotspice-core/resources/css/base-style.css">
@@ -8,17 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <body ng-app="hotspice">
-<div id="header">Hot Spice</div>
- <div id="nav">
-   		<div class="row">
-			<a href="#food">Menu Items</a>
-			<a href="#orders">Orders</a>
+	<div id="header">Hot Spice</div>
+
+	<div id="nav">
+		<div class="row">
+			<a href="#food">Menu Items</a> <a href="#orders">Orders</a>
 		</div>
-   </div>
-<div ng-controller="HSController" id="section">
-	<div class="container">
-		<div ng-view></div>
 	</div>
+	<div ng-controller="HSController" id="section">
+		<div class="container">
+			<div ng-view></div>
+		</div>
 	</div>
 
 </body>

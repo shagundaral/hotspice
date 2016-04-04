@@ -117,3 +117,9 @@ tr:nth-child(odd) {
 	margin-left: 224px;
     margin-top: 20px;
 }
+
+.clickable {
+	color: blue;
+	text-decoration: none;
+	border-bottom: 1px solid blue;
+}

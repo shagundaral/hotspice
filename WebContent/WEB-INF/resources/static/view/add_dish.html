@@ -1,5 +1,11 @@
 
 <div ng-controller="HSController" >
+
+	<div ng-if="addDishMessage!=null"
+		ng-class="{'alert alert-success':dishAdded,'alert alert-danger':!dishAdded}">
+		<strong>{{addDishMessage}}</strong>
+	</div>
+
 	<div class="row">
 		<div class="col-sm-2">Food Name: </div><input type="text" name="dishName" ng-model="newDish.name" class="col-sm-4">
 		<div class="col-sm-6"></div>

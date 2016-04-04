@@ -122,10 +122,14 @@ page.controller("HSController", function($scope, $http) {
         
 	        var responsePromise = $http.post("menu/item", dataObject, {});
 	        responsePromise.success(function(dataFromServer, status, headers, config) {
-	           alert("Food Item successfully added");
+	            $scope.addDishMessage = "Food Item successfully added";
+	            $scope.dishAdded = true;
+	        	//alert("Food Item successfully added");
 	        });
 	         responsePromise.error(function(data, status, headers, config) {
-	           alert("Failed to add food item");
+	        	 $scope.addDishMessage = "Failed to add food item";
+		         $scope.dishAdded = false;
+	           //alert("Failed to add food item");
 	        });
     	}
       }
@@ -177,7 +181,9 @@ page.controller("OrdersController", function($scope, $http) {
 			$scope.orders = dataFromServer;
 		});
 		ordersResponse.error(function(data, status, headers, config) {
-	       alert("fetching orders failed!");
+			$scope.orderPageMessage = "Fetching orders failed";
+			$scope.orderEdited = false;
+			//alert("fetching orders failed!");
 	    });
 	}
     
@@ -216,10 +222,14 @@ page.controller("OrdersController", function($scope, $http) {
 		new_order.status = order.status;
 		var ordersResponse = $http.post("order/status", new_order, {});
 		ordersResponse.success(function(dataFromServer, status, headers, config) {
-			alert("status updated!");
+			$scope.orderPageMessage = "Status updated successfully";
+			$scope.orderEdited = true;
+			//alert("status updated!");
 		});
 		ordersResponse.error(function(data, status, headers, config) {
-	       alert("fetching orders failed!");
+			$scope.orderPageMessage = "Failed to update status";
+			$scope.orderEdited = true;
+	       //alert("fetching orders failed!");
 	    });
 	}
 

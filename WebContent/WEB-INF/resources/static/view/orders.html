@@ -15,8 +15,12 @@
     </div>
   </form>
 
-		
-			<div class="row">
+	<div ng-if="orderPageMessage!=null"
+		ng-class="{'alert alert-success':orderEdited,'alert alert-danger':!orderEdited}">
+		<strong>{{orderPageMessage}}</strong>
+	</div>
+
+	<div class="row">
 				<div class="col-lg-2 col-sm-6 col-xs-6 col-md-4 solid highlightText" ng-click="sortOrder('orderId'); ">Order Id</div>
 				<div class="col-lg-2 hidden-md hidden-sm hidden-xs solid highlightText" >Customer Id</div>
 				<div class="col-lg-4 hidden-md hidden-sm hidden-xs solid highlightText" ng-click="sortOrder('timeOfOrder');">Time Of Order</div>
@@ -37,7 +41,7 @@
 			      <option value="CANCELLED">CANCELLED</option>
 			    </select>
 				</div>
-				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid">{{order.totalAmount}}</div>
+				<div class="col-lg-2 hidden-sm hidden-xs col-md-4 solid">INR {{order.totalAmount}}</div>
 				<!--<div class="col-lg-1 solid" ng-click="showOrder(order)">View</div>-->
 			</div>
 		</div>
