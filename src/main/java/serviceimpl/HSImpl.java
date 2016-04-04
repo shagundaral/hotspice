@@ -85,7 +85,7 @@ public class HSImpl implements HSService {
 	public Order createOrder(PlaceOrderRequest placeOrderRequest) {
 		Order order = new Order();
 		order.setOrderId("HS"+helper.generateOrderId());
-		logger.error("New Order received:: "+order.getOrderId());
+		logger.debug("New Order received:: "+order.getOrderId());
 		order.setAddress(placeOrderRequest.getCustomer().getAddress());
 		order.setCity(placeOrderRequest.getCustomer().getCity());
 		order.setCustomer(placeOrderRequest.getCustomer());

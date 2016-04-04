@@ -56,7 +56,8 @@
 	</bean> -->
 	
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/view/*" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/view" access="hasRole('ROLE_USER')" />
 		<security:csrf disabled="true"/>
 	</security:http>
 
